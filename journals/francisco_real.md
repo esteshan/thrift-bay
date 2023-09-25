@@ -56,10 +56,9 @@ The `docker-compose.yml` was a crucial part of this task. The configurations for
 
 - Learned how to debug issues using Docker logs and how to connect to a Dockerized PostgreSQL database using Beekeeper Studio.
 
-## Journal Entry - 09/24/2023 #2
-
 ---
-
+## Journal Entry - 09/24/2023 #2
+---
 ### Task
 
 Create GitLab Issues for Agile Sprint 1 and Initial Project Setup
