@@ -6,6 +6,7 @@ from queries.products import (
     ProductRepository,
     ProductsOut,
 )
+from uuid import UUID
 
 
 router = APIRouter()
@@ -17,7 +18,7 @@ def create_product(
     response: Response,
     repo: ProductRepository = Depends(),
 ):
-    return repo.create(product)
+    return repo.create_product(product)
 
 
 @router.get("/products", response_model=Union[List[ProductsOut], Error])
@@ -25,3 +26,11 @@ def get_all(
     repo: ProductRepository = Depends(),
 ):
     return repo.get_all()
+
+
+@router.delete("/products/{product_id}", response_model=bool)
+def delete_product(
+    product_id: UUID,
+    repo: ProductRepository = Depends(),
+) -> bool:
+    return repo.delete_product(product_id)

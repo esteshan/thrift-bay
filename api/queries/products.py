@@ -71,7 +71,25 @@ class ProductRepository:
             print(e)
             return {"message": "Could not get all products"}
 
-    def create(self, product: ProductsIn) -> Union[ProductsOut, Error]:
+    def delete_product(self, product_id: UUID) -> bool:
+        try:
+            # connect the database
+            with pool.connection() as conn:
+                # get a cursor (something to run SQL with)
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        DELETE FROM products
+                        WHERE product_id = %s
+                        """,
+                        [product_id]
+                    )
+                    return True
+        except Exception as e:
+            print(e)
+            return False
+
+    def create_product(self, product: ProductsIn) -> Union[ProductsOut, Error]:
         try:
             product_id = uuid.uuid4()
             print(f"Generated product_id: {product_id}")
