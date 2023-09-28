@@ -90,21 +90,24 @@ async def create_user(
             detail="Cannot create a user with those credentials",
         )
 
+    # Convert UUID to string here
     user_out_dict = user_out.dict()
-    user_out_dict["user_id"] = str(user_out_dict["user_id"])  # Convert UUID to string
+    user_out_dict["user_id"] = str(user_out_dict["user_id"])
 
     form = UserForm(username=user.username, password=user.password)
 
+    # Pass the updated user_out_dict or update your authenticator.login to use it
     token = await authenticator.login(response, request, form, queries)
 
     # Return the token as part of the UserToken response model
     return UserToken(user=user_out_dict, **token.dict())
 
 
+
 # Define route to delete a user
 @router.delete("/api/users/{user_id}", response_model=bool)
 def delete_user(
-    user_id: int,
+    user_id: UUID,
     queries: UserQueries = Depends(),
 ):
     # Delete user using the queries class method

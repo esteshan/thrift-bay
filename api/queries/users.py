@@ -11,23 +11,23 @@ pool = ConnectionPool(conninfo=os.environ["DATABASE_URL"])
 
 # Define the UserOut Pydantic model
 class UserOut(BaseModel):
-    user_id: UUID
+    user_id: int
     first_name: str
     last_name: str
     username: str
     email: str
 
-    class Config:
-        json_encoders = {
-            UUID: str
-        }
+    # class Config:
+    #     json_encoders = {
+    #         UUID: str
+    #     }
 
 # Extend UserOut model to include hashed_password
 class UserOutWithPassword(UserOut):
     password_hash: str
 
-    class Config(UserOut.Config):
-        pass
+    # class Config(UserOut.Config):
+    #     pass
 
 # Define custom Exception for duplicate accounts
 class DuplicateAccountError(ValueError):
@@ -55,7 +55,7 @@ class UserQueries:
                     # SQL query to fetch all users
                     """
                     SELECT user_id, first_name, last_name,
-                        email, username, hashed_password
+                        email, username, password_hash
                     FROM users
                     ORDER BY last_name, first_name
                     """
