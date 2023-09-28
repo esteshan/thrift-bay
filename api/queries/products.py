@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List, Optional, Union
 from queries.pool import pool
+from datetime import date
 from uuid import UUID
 import uuid
 
@@ -19,7 +20,7 @@ class ProductsIn(BaseModel):
     sold: bool
     category: UUID
     user_product: UUID
-    created_at: str
+    created_at: date
 
 
 class ProductsOut(BaseModel):
@@ -33,7 +34,7 @@ class ProductsOut(BaseModel):
     sold: bool
     category: UUID
     user_product: UUID
-    created_at: str
+    created_at: date
 
 
 class ProductRepository:
@@ -59,6 +60,7 @@ class ProductRepository:
                             user_product,
                             created_at
                         FROM products
+                        ORDER BY created_at;
                         """
                     )
                     return [
