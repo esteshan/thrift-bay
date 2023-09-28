@@ -1,10 +1,16 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import products
+from routers import products, users
+from authenticator import authenticator
 import os
 
 app = FastAPI()
-app.include_router(products.router)
+
+
+@app.get("/")
+def root():
+    return {"message": "You hit the root path!"}
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -16,15 +22,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-@app.get("/api/launch-details")
-def launch_details():
-    return {
-        "launch_details": {
-            "module": 3,
-            "week": 17,
-            "day": 5,
-            "hour": 19,
-            "min": "00"
-        }
-    }
+app.include_router(authenticator.router)
+app.include_router(users.router)
+app.include_router(products.router)
