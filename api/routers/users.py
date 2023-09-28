@@ -10,6 +10,7 @@ from fastapi import (
 from pydantic import BaseModel
 from jwtdown_fastapi.authentication import Token
 from authenticator import authenticator
+from uuid import UUID
 
 # Import custom queries and models
 from queries.users import (
@@ -80,25 +81,25 @@ async def create_user(
     response: Response,
     queries: UserQueries = Depends(),
 ):
-    # Hash the password using the authenticator
     hashed_password = authenticator.hash_password(user.password)
     try:
-        # Attempt to create a user
         user_out = queries.create_user(user, hashed_password)
     except DuplicateAccountError:
-        # If user already exists, raise HTTPException with 400
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Cannot create a user with those credentials",
         )
 
-    # Create a form for login
+    user_out_dict = user_out.dict()
+    user_out_dict["user_id"] = str(user_out_dict["user_id"])  # Convert UUID to string
+
     form = UserForm(username=user.username, password=user.password)
 
-    # Get the token by logging the user in
     token = await authenticator.login(response, request, form, queries)
 
-    return UserToken(user=user_out, **token.dict())
+    # Return the token as part of the UserToken response model
+    return UserToken(user=user_out_dict, **token.dict())
+
 
 # Define route to delete a user
 @router.delete("/api/users/{user_id}", response_model=bool)

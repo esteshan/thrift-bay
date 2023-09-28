@@ -2,7 +2,7 @@
 import os
 from typing import List
 from psycopg_pool import ConnectionPool
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from uuid import UUID, uuid4
 
 
@@ -17,9 +17,17 @@ class UserOut(BaseModel):
     username: str
     email: str
 
+    class Config:
+        json_encoders = {
+            UUID: str
+        }
+
 # Extend UserOut model to include hashed_password
 class UserOutWithPassword(UserOut):
     password_hash: str
+
+    class Config(UserOut.Config):
+        pass
 
 # Define custom Exception for duplicate accounts
 class DuplicateAccountError(ValueError):
@@ -109,7 +117,7 @@ class UserQueries:
                 )
                 user_id = cur.fetchone()[0]
                 return UserOutWithPassword(
-                    user_id=UUID(user_id),
+                    user_id=user_id,
                     username=user.username,
                     password_hash=password_hash,
                     first_name=user.first_name,
