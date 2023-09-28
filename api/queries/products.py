@@ -17,7 +17,7 @@ class ProductsIn(BaseModel):
     size: str
     description: Optional[str]
     item_price: int
-    sold: bool
+    sold: bool = False
     category: UUID
     user_product: UUID
     created_at: date
@@ -31,7 +31,7 @@ class ProductsOut(BaseModel):
     size: str
     description: str
     item_price: int
-    sold: bool
+    sold: bool = False
     category: UUID
     user_product: UUID
     created_at: date
