@@ -16,22 +16,24 @@ class ProductsIn(BaseModel):
     size: str
     description: Optional[str]
     item_price: int
-    sold: Optional[bool]
-    category: Optional[UUID]
-    user_product: Optional[UUID]
+    sold: bool
+    category: UUID
+    user_product: UUID
+    created_at: str
 
 
 class ProductsOut(BaseModel):
-    product_id: Optional[UUID]
+    product_id: UUID
     name: str
     picture_url: str
     color: str
     size: str
-    description: Optional[str]
+    description: str
     item_price: int
-    sold: Optional[bool]
-    category: Optional[UUID]
-    user_product: Optional[UUID]
+    sold: bool
+    category: UUID
+    user_product: UUID
+    created_at: str
 
 
 class ProductRepository:
@@ -54,7 +56,8 @@ class ProductRepository:
                             item_price,
                             sold,
                             category,
-                            user_product
+                            user_product,
+                            created_at
                         FROM products
                         """
                     )
@@ -87,13 +90,13 @@ class ProductRepository:
                             item_price,
                             sold,
                             category,
-                            user_product
+                            user_product,
+                            created_at
                             )
                         VALUES
-                            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                         RETURNING product_id;
                         """,
-
                         [
                             product_id,
                             product.name,
@@ -105,13 +108,17 @@ class ProductRepository:
                             product.sold,
                             product.category,
                             product.user_product,
-                        ]
+                            product.created_at,
+                        ],
                     )
                     product_id = result.fetchone()[0]
                     print(f"Inserted product_id: {product_id}")
                     return self.product_in_to_out(product_id, product)
-        except Exception:
-            return {"message": "An error occurred while creating the product"}
+        except Exception as e:
+            print(e)
+            return Error(
+                message="An error occurred while creating the product"
+            )
 
     def product_in_to_out(self, product_id: UUID, product: ProductsIn):
         old_data = product.dict()
@@ -129,4 +136,5 @@ class ProductRepository:
             sold=record[7],
             category=record[8],
             user_product=record[9],
+            created_at=record[10],
         )

@@ -20,7 +20,8 @@ steps = [
         """
         CREATE TABLE categories (
             category_id UUID NOT NULL PRIMARY KEY,
-            name VARCHAR(50) NOT NULL
+            name VARCHAR(50) NOT NULL,
+            created_at TIMESTAMP
         );
         """,
         """
@@ -39,7 +40,8 @@ steps = [
             item_price NUMERIC(7,2) NOT NULL,
             sold BOOLEAN DEFAULT FALSE,
             category UUID REFERENCES categories(category_id),
-            user_product UUID REFERENCES users(user_id)
+            user_product UUID REFERENCES users(user_id),
+            created_at TIMESTAMP
         );
         """,
         """
@@ -55,7 +57,8 @@ steps = [
             state TEXT NOT NULL,
             zip_code VARCHAR(10) NOT NULL,
             user_id UUID REFERENCES users(user_id),
-            product_id UUID REFERENCES products(product_id)
+            product_id UUID REFERENCES products(product_id),
+            created_at TIMESTAMP
         );
         """,
         """
@@ -69,7 +72,8 @@ steps = [
             rating INTEGER,
             comment TEXT,
             user_id UUID REFERENCES users(user_id),
-            product_id UUID REFERENCES products(product_id)
+            product_id UUID REFERENCES products(product_id),
+            created_at TIMESTAMP
         );
         """,
         """
