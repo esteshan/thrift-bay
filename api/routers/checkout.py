@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Response
-from typing import Union
+from typing import Union, List
 from queries.checkout import (
     Error,
     CheckoutIn,
@@ -18,3 +18,10 @@ def create_checkout(
     repo: CheckoutRepository = Depends(),
 ):
     return repo.create_checkout(checkout)
+
+
+@router.get("/checkout", response_model=Union[List[CheckoutOut], Error])
+def get_all(
+    repo: CheckoutRepository = Depends(),
+):
+    return repo.get_all()

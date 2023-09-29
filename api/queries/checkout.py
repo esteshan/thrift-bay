@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Union
+from typing import Union, List
 from datetime import date
 from queries.pool import pool
 from uuid import UUID
@@ -32,9 +32,9 @@ class CheckoutOut(BaseModel):
 
 
 class CheckoutRepository:
-    def create_checkout(self, checkout: CheckoutIn) -> Union[
-            CheckoutOut,
-            Error]:
+    def create_checkout(
+        self, checkout: CheckoutIn
+    ) -> Union[CheckoutOut, Error]:
         try:
             checkout_id = uuid.uuid4()
             with pool.connection() as conn:
@@ -55,7 +55,6 @@ class CheckoutRepository:
                             (%s, %s, %s, %s, %s, %s, %s, %s)
                         RETURNING checkout_id;
                         """,
-
                         [
                             checkout_id,
                             checkout.address,
@@ -65,7 +64,7 @@ class CheckoutRepository:
                             checkout.user_id,
                             checkout.product_id,
                             checkout.created_at,
-                        ]
+                        ],
                     )
                     checkout_id = result.fetchone()[0]
                     return self.checkout_in_to_out(checkout_id, checkout)
@@ -75,3 +74,45 @@ class CheckoutRepository:
     def checkout_in_to_out(self, checkout_id: UUID, checkout: CheckoutIn):
         old_data = checkout.dict()
         return CheckoutOut(checkout_id=checkout_id, **old_data)
+
+    def get_all(self) -> Union[Error, List[CheckoutOut]]:
+        try:
+            # connect the database
+            with pool.connection() as conn:
+                # get a cursor (something to run SQL with)
+                with conn.cursor() as db:
+                    # Run our SELECT statement
+                    result = db.execute(
+                        """
+                        SELECT
+                            checkout_id,
+                            address,
+                            city,
+                            state,
+                            zip_code,
+                            user_id,
+                            product_id,
+                            created_at
+                        FROM checkout
+                        ORDER BY created_at;
+                        """
+                    )
+                    return [
+                        self.record_to_checkout_out(record)
+                        for record in result
+                    ]
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get all products"}
+
+    def record_to_checkout_out(self, record):
+        return CheckoutOut(
+            checkout_id=record[0],
+            address=record[1],
+            city=record[2],
+            state=record[3],
+            zip_code=record[4],
+            user_id=record[5],
+            product_id=record[6],
+            created_at=record[7],
+        )
