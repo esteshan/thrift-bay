@@ -46,3 +46,57 @@ Code snippets are in `api.queries.categories.py` and `api.queries.pool` and `api
 - Also learned how to make a connection to the database and how to use that connection to pull the table out of the database and store data inside it using the pydantic models.
 
 ---
+
+### Journal Entry - 9/28/2023
+
+---
+
+#### Task:
+
+Created API endpoints for Categories. (POST/GET)
+Completed AUTH with everyone in the group.
+Fixed our data tables again.
+
+
+#### Objective:
+
+Create API endpoints that sends a GET request and a POST request to /category
+Finish and implement Auth to users
+Add created_at field for the tables besides user tables
+
+---
+
+#### Steps Taken:
+
+-Created a categories.py in both routers and queries folder, added some code in there that shows up on the fastAPI server
+-We finished our AUTH for users by basically going back and forth thru the documentation and asking for help in helpmeunderstand on how we would have a user_id show up in the response for when we create a user
+---
+
+#### Key Code Snippets:
+Code snippets are in `api.queries.categories.py` and `api.routers.categories.py`, `authenticator.py`, `api.migrations.001_create_tables.py`, `api.routers.users.py`, `api.queries.users.py`.
+
+---
+
+#### Challenges:
+- Ensuring that the API endpoints work as intended.
+- We get an access and login token and be able to delete those tokens as well.
+- Delete, Create, and view all the existing users in the database.
+- Able to view all the categories inside the database in the API.
+
+---
+
+#### Solutions:
+We finished our AUTH for users by basically going back and forth thru the documentation and asking for help in helpmeunderstand on how we would have a user_id show up in the response for when we create a user.
+Created a categories.py in both routers and queries folder, added some code in there that shows up on the fastAPI server.
+Read a lot of documentation and watched a lot of videos about authorization and jwt.
+
+
+---
+
+#### Lessons Learned:
+- Learned how to create API's using FASTAPI and learned that it allows you to create API's much more faster and efficiently.
+- Learned a lot more about how API's work and how pydantic models work in fastAPI.
+- Got more knowledgeable with JWT.
+- Got more used to and familiarized git and how merging and creating issues work.
+
+---
