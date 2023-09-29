@@ -58,7 +58,7 @@ async def get_token(
 
 
 # Define route to get a user by username
-@router.get("/api/users/{username}", response_model=UserOut)
+@router.get("/users/{username}", response_model=UserOut)
 def get_user(
     username: str,
     queries: UserQueries = Depends(),
@@ -76,13 +76,13 @@ def get_user(
 
 
 # Define route to get all users
-@router.get("/api/users", response_model=UserListOut)
+@router.get("/users", response_model=UserListOut)
 def get_users(queries: UserQueries = Depends()):
     return {"users": queries.get_all_users()}
 
 
 # Define route to create a user
-@router.post("/api/users", response_model=UserToken | HttpError)
+@router.post("/users", response_model=UserToken | HttpError)
 async def create_user(
     user: UserIn,
     request: Request,
@@ -112,7 +112,7 @@ async def create_user(
 
 
 # Define route to delete a user
-@router.delete("/api/users/{user_id}", response_model=bool)
+@router.delete("/users/{user_id}", response_model=bool)
 def delete_user(
     user_id: UUID,
     queries: UserQueries = Depends(),
