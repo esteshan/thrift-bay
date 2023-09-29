@@ -10,6 +10,19 @@ class Error(BaseModel):
     message: str
 
 
+class PUpdate(BaseModel):
+    name: Optional[str]
+    picture_url: Optional[str]
+    color: Optional[str]
+    size: Optional[str]
+    description: Optional[str]
+    item_price: Optional[int]
+    sold: Optional[bool]
+    category: Optional[UUID]
+    user_product: Optional[UUID]
+    created_at: Optional[date]
+
+
 class ProductsIn(BaseModel):
     name: str
     picture_url: str
@@ -70,6 +83,75 @@ class ProductRepository:
         except Exception as e:
             print(e)
             return {"message": "Could not get all products"}
+
+    def update_product(
+            self, product_id: UUID, product: PUpdate
+            ) -> Union[ProductsOut, Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute("""
+                        UPDATE products
+                        SET
+                            name = COALESCE(%s, name),
+                            picture_url = COALESCE(%s, picture_url),
+                            color = COALESCE(%s, color),
+                            size = COALESCE(%s, size),
+                            description = COALESCE(%s, description),
+                            item_price = COALESCE(%s, item_price),
+                            sold = COALESCE(%s, sold),
+                            category = COALESCE(%s, category),
+                            user_product = COALESCE(%s, user_product)
+                        WHERE
+                            product_id = %s
+                        RETURNING product_id;
+                    """, [
+                        product.name,
+                        product.picture_url,
+                        product.color,
+                        product.size,
+                        product.description,
+                        product.item_price,
+                        product.sold,
+                        product.category,
+                        product.user_product,
+                        product_id,
+                    ])
+                    updated_product_id = db.fetchone()[0]
+                    updated_product = self.get_product_by_id(
+                        updated_product_id)
+                    return updated_product
+        except Exception as e:
+            print(e)
+            return Error(message="An error occurred updating the product")
+
+    def get_product_by_id(self, product_id: UUID) -> Union[ProductsOut, Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute("""
+                        SELECT
+                            product_id,
+                            name,
+                            picture_url,
+                            color,
+                            size,
+                            description,
+                            item_price,
+                            sold,
+                            category,
+                            user_product,
+                            created_at
+                        FROM products
+                        WHERE product_id = %s
+                    """, [product_id])
+                    record = db.fetchone()
+                    if record:
+                        return self.record_to_products_out(record)
+                    else:
+                        return Error(message="Product not found")
+        except Exception as e:
+            return Error(message=f"error occurred fetching product: {e}")
 
     def delete_product(self, product_id: UUID) -> bool:
         try:

@@ -5,6 +5,7 @@ from queries.products import (
     ProductsIn,
     ProductRepository,
     ProductsOut,
+    PUpdate
 )
 from uuid import UUID
 
@@ -34,3 +35,20 @@ def delete_product(
     repo: ProductRepository = Depends(),
 ) -> bool:
     return repo.delete_product(product_id)
+
+
+@router.put("/products/{product_id}", response_model=Union[ProductsOut, Error])
+def update_product(
+    product_id: UUID,
+    product: PUpdate,
+    repo: ProductRepository = Depends()
+) -> Union[ProductsOut, Error]:
+    return repo.update_product(product_id, product)
+
+
+@router.get("/products/{product_id}", response_model=Union[ProductsOut, Error])
+def get_product_by_id(
+    product_id: UUID,
+    repo: ProductRepository = Depends()
+) -> Union[ProductsOut, Error]:
+    return repo.get_product_by_id(product_id)
