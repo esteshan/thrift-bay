@@ -85,3 +85,48 @@ Code snippets are in `api.queries.products.py` and `api.routers.products.py`.
 - Learned how to create API's using FASTAPI and learned how to add a UUID and attach it to the object each time a POST request is made.
 
 ---
+
+
+
+### Journal Entry - 9/28/2023
+
+---
+
+#### Task:
+
+Created more API endpoints for products, categories, and checkout.
+
+
+#### Objective:
+
+Finish the rest of the endpoints a part of our first milestone.
+
+---
+
+#### Steps Taken:
+
+Finished the rest of the endpoints we had decided to make and helped teammates create theirs.
+
+---
+
+#### Key Code Snippets:
+Code snippets are in `api.queries.products.py` and `api.routers.products.py`.
+
+---
+
+#### Challenges:
+- Ensuring that the API endpoints work as intended.
+
+---
+
+#### Solutions:
+
+
+
+---
+
+#### Lessons Learned:
+- Learned how to create API's using FASTAPI and learned that it allows you to create API's much more faster and efficiently.
+Also better learned how to use the database.
+
+---
