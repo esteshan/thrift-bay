@@ -5,6 +5,7 @@ from queries.reviews import (
     ReviewsIn,
     ReviewRepository,
     ReviewsOut,
+    RUpdate,
 )
 from uuid import UUID
 
@@ -26,6 +27,13 @@ def get_review_by_id(
     review_id: UUID, repo: ReviewRepository = Depends()
 ) -> Union[ReviewsOut, Error]:
     return repo.get_review_by_id(review_id)
+
+
+@router.put("/reviews/{review_id}", response_model=Union[ReviewsOut, Error])
+def update_review(
+    review_id: UUID, review: RUpdate, repo: ReviewRepository = Depends()
+) -> Union[ReviewsOut, Error]:
+    return repo.update_review(review_id, review)
 
 
 @router.delete("/reviews/{review_id}", response_model=bool)

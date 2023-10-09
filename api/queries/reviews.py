@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Union
+from typing import Optional, Union
 from queries.pool import pool
 from datetime import date
 from uuid import UUID
@@ -8,6 +8,14 @@ import uuid
 
 class Error(BaseModel):
     message: str
+
+
+class RUpdate(BaseModel):
+    rating: Optional[int]
+    comment: Optional[str]
+    user_id: Optional[UUID]
+    product_id: Optional[UUID]
+    created_at: Optional[date]
 
 
 class ReviewsIn(BaseModel):
@@ -92,6 +100,39 @@ class ReviewRepository:
                         return Error(message="Review not found")
         except Exception as e:
             return Error(message=f"error occurred fetching review: {e}")
+
+    def update_review(
+        self, review_id: UUID, review: RUpdate
+    ) -> Union[ReviewsOut, Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        UPDATE reviews
+                        SET
+                            rating = COALESCE(%s, rating),
+                            comment = COALESCE(%s, comment),
+                            user_id = COALESCE(%s, user_id),
+                            product_id = COALESCE(%s, product_id)
+                        WHERE
+                            review_id = %s
+                        RETURNING review_id;
+                    """,
+                        [
+                            review.rating,
+                            review.comment,
+                            review.user_id,
+                            review.product_id,
+                            review_id,
+                        ],
+                    )
+                    updated_review_id = db.fetchone()[0]
+                    updated_review = self.get_review_by_id(updated_review_id)
+                    return updated_review
+        except Exception as e:
+            print(e)
+            return Error(message="An error occurred updating the review")
 
     def delete_review(self, review_id: UUID) -> bool:
         try:
