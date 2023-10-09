@@ -100,3 +100,49 @@ Read a lot of documentation and watched a lot of videos about authorization and 
 - Got more used to and familiarized git and how merging and creating issues work.
 
 ---
+
+
+### Journal Entry - 10/09/2023
+
+---
+
+#### Task:
+
+Created POST, PUT, and DELETE endpoints for reviews. (Create/Update/Delete)
+
+
+#### Objective:
+
+Create three endpoints for our backend API's
+Do some research with React and Redux
+
+---
+
+#### Steps Taken:
+
+Created a reviews.py in routers and queries and used FASTAPI to create the API for the create reviews, update reviews, and delete reviews.
+Went online and watched some videos about React and React redux as well as making use of the material provided for us in Learn.
+
+---
+
+#### Key Code Snippets:
+Code snippets are in `api.queries.reviews.py` and `api.routers.reviews.py`.
+
+---
+
+#### Challenges:
+- Ensuring that the API endpoints work as intended.
+- Making sure that I have a good and better understanding of how React and Redux work
+
+---
+
+#### Solutions:
+
+
+
+---
+
+#### Lessons Learned:
+- Deeper understanding of React and Redux toolkit
+
+---
