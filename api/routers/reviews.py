@@ -23,7 +23,14 @@ def create_review(
 
 @router.get("/reviews/{review_id}", response_model=Union[ReviewsOut, Error])
 def get_review_by_id(
-    review_id: UUID,
-    repo: ReviewRepository = Depends()
+    review_id: UUID, repo: ReviewRepository = Depends()
 ) -> Union[ReviewsOut, Error]:
     return repo.get_review_by_id(review_id)
+
+
+@router.delete("/reviews/{review_id}", response_model=bool)
+def delete_review(
+    review_id: UUID,
+    repo: ReviewRepository = Depends(),
+) -> bool:
+    return repo.delete_review(review_id)

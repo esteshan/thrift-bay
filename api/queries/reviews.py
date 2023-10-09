@@ -71,7 +71,8 @@ class ReviewRepository:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
-                    db.execute("""
+                    db.execute(
+                        """
                         SELECT
                             review_id,
                             rating,
@@ -81,7 +82,9 @@ class ReviewRepository:
                             created_at
                         FROM reviews
                         WHERE review_id = %s
-                    """, [review_id])
+                    """,
+                        [review_id],
+                    )
                     record = db.fetchone()
                     if record:
                         return self.record_to_reviews_out(record)
@@ -89,6 +92,24 @@ class ReviewRepository:
                         return Error(message="Review not found")
         except Exception as e:
             return Error(message=f"error occurred fetching review: {e}")
+
+    def delete_review(self, review_id: UUID) -> bool:
+        try:
+            # connect the database
+            with pool.connection() as conn:
+                # get a cursor (something to run SQL with)
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        DELETE FROM reviews
+                        WHERE review_id = %s
+                        """,
+                        [review_id],
+                    )
+                    return True
+        except Exception as e:
+            print(e)
+            return False
 
     def review_in_to_out(self, review_id: UUID, review: ReviewsIn):
         old_data = review.dict()
