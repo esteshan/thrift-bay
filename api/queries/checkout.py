@@ -71,6 +71,32 @@ class CheckoutRepository:
         except Exception:
             return {"message": "An error occurred while processing receipt"}
 
+    def get_checkout_by_id(self, checkout_id: UUID) -> Union[CheckoutOut,
+                                                             Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute("""
+                        SELECT
+                            checkout_id,
+                            address,
+                            city,
+                            state,
+                            zip_code,
+                            user_id,
+                            product_id,
+                            created_at
+                        FROM checkout
+                        WHERE checkout_id = %s
+                    """, [checkout_id])
+                    record = db.fetchone()
+                    if record:
+                        return self.record_to_checkout_out(record)
+                    else:
+                        return Error(message="Receipt not found")
+        except Exception as e:
+            return Error(message=f"error occurred fetching receipt: {e}")
+
     def checkout_in_to_out(self, checkout_id: UUID, checkout: CheckoutIn):
         old_data = checkout.dict()
         return CheckoutOut(checkout_id=checkout_id, **old_data)

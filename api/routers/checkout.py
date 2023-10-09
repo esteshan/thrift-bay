@@ -6,6 +6,7 @@ from queries.checkout import (
     CheckoutRepository,
     CheckoutOut,
 )
+from uuid import UUID
 
 
 router = APIRouter()
@@ -25,3 +26,12 @@ def get_all(
     repo: CheckoutRepository = Depends(),
 ):
     return repo.get_all()
+
+
+@router.get("/checkout/{checkout_id}", response_model=Union[CheckoutOut,
+                                                            Error])
+def get_checkout_by_id(
+    checkout_id: UUID,
+    repo: CheckoutRepository = Depends()
+) -> Union[CheckoutOut, Error]:
+    return repo.get_checkout_by_id(checkout_id)
