@@ -6,6 +6,7 @@ from queries.reviews import (
     ReviewRepository,
     ReviewsOut,
 )
+from uuid import UUID
 
 
 router = APIRouter()
@@ -18,3 +19,11 @@ def create_review(
     repo: ReviewRepository = Depends(),
 ):
     return repo.create_review(review)
+
+
+@router.get("/reviews/{review_id}", response_model=Union[ReviewsOut, Error])
+def get_review_by_id(
+    review_id: UUID,
+    repo: ReviewRepository = Depends()
+) -> Union[ReviewsOut, Error]:
+    return repo.get_review_by_id(review_id)

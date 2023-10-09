@@ -67,6 +67,29 @@ class ReviewRepository:
             print(e)
             return Error(message="An error occurred while creating a review")
 
+    def get_review_by_id(self, review_id: UUID) -> Union[ReviewsOut, Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute("""
+                        SELECT
+                            review_id,
+                            rating,
+                            comment,
+                            user_id,
+                            product_id,
+                            created_at
+                        FROM reviews
+                        WHERE review_id = %s
+                    """, [review_id])
+                    record = db.fetchone()
+                    if record:
+                        return self.record_to_reviews_out(record)
+                    else:
+                        return Error(message="Review not found")
+        except Exception as e:
+            return Error(message=f"error occurred fetching review: {e}")
+
     def review_in_to_out(self, review_id: UUID, review: ReviewsIn):
         old_data = review.dict()
         return ReviewsOut(review_id=review_id, **old_data)
