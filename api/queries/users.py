@@ -2,15 +2,13 @@ import os
 from typing import List
 from psycopg_pool import ConnectionPool
 from pydantic import BaseModel
-from uuid import uuid4
-
+from uuid import uuid4, UUID
 
 # Create a connection pool for PostgreSQL
 pool = ConnectionPool(conninfo=os.environ["DATABASE_URL"])
 
-
 class UserOut(BaseModel):
-    user_id: int
+    user_id: UUID
     first_name: str
     last_name: str
     username: str

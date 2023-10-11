@@ -56,32 +56,12 @@ async def get_token(
             "user": user,
         }
 
-
-# Define route to get a user by username
-@router.get("/users/{username}", response_model=UserOut)
-def get_user(
-    username: str,
-    queries: UserQueries = Depends(),
-):
-    # Fetch user details
-    record = queries.get_user(username)
-    # If no record found, raise HTTPException with 404
-    if record is None:
-        raise HTTPException(
-            status_code=404,
-            detail=f"Could not get a specific user with username {username}",
-        )
-    else:
-        return record
-
-
 # Define route to get all users
 @router.get("/users", response_model=UserListOut)
 def get_users(queries: UserQueries = Depends()):
     return {"users": queries.get_all_users()}
 
 
-# Define route to create a user
 @router.post("/users", response_model=UserToken | HttpError)
 async def create_user(
     user: UserIn,
@@ -97,7 +77,6 @@ async def create_user(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Cannot create a user with those credentials",
         )
-
     # Convert UUID to string here
     user_out_dict = user_out.dict()
     user_out_dict["user_id"] = str(user_out_dict["user_id"])
@@ -109,6 +88,7 @@ async def create_user(
 
     # Return the token as part of the UserToken response model
     return UserToken(user=user_out_dict, **token.dict())
+
 
 
 # Define route to delete a user
