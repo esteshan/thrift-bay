@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Response
+from authenticator import authenticator
 from typing import Union, List
 from queries.checkout import (
     Error,
@@ -16,6 +17,7 @@ router = APIRouter()
 def create_checkout(
     checkout: CheckoutIn,
     response: Response,
+    account_data: dict = Depends(authenticator.get_current_account_data),
     repo: CheckoutRepository = Depends(),
 ):
     return repo.create_checkout(checkout)
@@ -23,15 +25,18 @@ def create_checkout(
 
 @router.get("/checkout", response_model=Union[List[CheckoutOut], Error])
 def get_all(
+    account_data: dict = Depends(authenticator.get_current_account_data),
     repo: CheckoutRepository = Depends(),
 ):
     return repo.get_all()
 
 
-@router.get("/checkout/{checkout_id}", response_model=Union[CheckoutOut,
-                                                            Error])
+@router.get(
+    "/checkout/{checkout_id}", response_model=Union[CheckoutOut, Error]
+)
 def get_checkout_by_id(
     checkout_id: UUID,
-    repo: CheckoutRepository = Depends()
+    account_data: dict = Depends(authenticator.get_current_account_data),
+    repo: CheckoutRepository = Depends(),
 ) -> Union[CheckoutOut, Error]:
     return repo.get_checkout_by_id(checkout_id)

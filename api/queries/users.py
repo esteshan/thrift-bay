@@ -2,7 +2,7 @@ import os
 from typing import List
 from psycopg_pool import ConnectionPool
 from pydantic import BaseModel
-from uuid import uuid4
+import uuid
 
 
 # Create a connection pool for PostgreSQL
@@ -10,7 +10,7 @@ pool = ConnectionPool(conninfo=os.environ["DATABASE_URL"])
 
 
 class UserOut(BaseModel):
-    user_id: int
+    user_id: str
     first_name: str
     last_name: str
     username: str
@@ -54,6 +54,7 @@ class UserQueries:
                     record = {}
                     for i, column in enumerate(cur.description):
                         record[column.name] = row[i]
+                    record["user_id"] = str(record["user_id"])
                     results.append(UserOut(**record))
                 return results
 
@@ -76,12 +77,13 @@ class UserQueries:
                     record = {}
                     for i, column in enumerate(cur.description):
                         record[column.name] = row[i]
+                    record["user_id"] = str(record["user_id"])
                     return UserOutWithPass(**record)
 
     def create_user(self, user: UserIn, password_hash: str) -> UserOutWithPass:
         with pool.connection() as conn:
             with conn.cursor() as cur:
-                new_uuid = uuid4()
+                new_uuid = uuid.uuid4()
                 cur.execute(
                     """
                     INSERT INTO users (user_id, username, password_hash,
@@ -100,7 +102,7 @@ class UserQueries:
                 )
                 user_id = cur.fetchone()[0]
                 return UserOutWithPass(
-                    user_id=user_id,
+                    user_id=str(user_id),
                     username=user.username,
                     password_hash=password_hash,
                     first_name=user.first_name,

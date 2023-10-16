@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Response
+from authenticator import authenticator
 from typing import Union
 from queries.reviews import (
     Error,
@@ -17,6 +18,7 @@ router = APIRouter()
 def create_review(
     review: ReviewsIn,
     response: Response,
+    account_data: dict = Depends(authenticator.get_current_account_data),
     repo: ReviewRepository = Depends(),
 ):
     return repo.create_review(review)
@@ -31,7 +33,10 @@ def get_review_by_id(
 
 @router.put("/reviews/{review_id}", response_model=Union[ReviewsOut, Error])
 def update_review(
-    review_id: UUID, review: RUpdate, repo: ReviewRepository = Depends()
+    review_id: UUID,
+    review: RUpdate,
+    account_data: dict = Depends(authenticator.get_current_account_data),
+    repo: ReviewRepository = Depends(),
 ) -> Union[ReviewsOut, Error]:
     return repo.update_review(review_id, review)
 
@@ -39,6 +44,7 @@ def update_review(
 @router.delete("/reviews/{review_id}", response_model=bool)
 def delete_review(
     review_id: UUID,
+    account_data: dict = Depends(authenticator.get_current_account_data),
     repo: ReviewRepository = Depends(),
 ) -> bool:
     return repo.delete_review(review_id)

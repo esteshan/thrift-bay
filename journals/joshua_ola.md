@@ -146,3 +146,48 @@ Code snippets are in `api.queries.reviews.py` and `api.routers.reviews.py`.
 - Deeper understanding of React and Redux toolkit
 
 ---
+
+
+### Journal Entry - 10/10/2023
+
+---
+
+#### Task:
+
+- Added authenticator requirements on all of the endpoints that need it
+
+
+#### Objective:
+
+Added requirement in all the endpoints that you need to have an access token in order to be able to get or fetch data from the endpoints.
+
+---
+
+#### Steps Taken:
+
+imported authenticator into the routers directory for `categories.py`, `checkout.py`, `products.py`, `reviews.py`, and added a requirement for access token specifically on POST, PUT, DELETE endpoints.
+
+---
+
+#### Key Code Snippets:
+Code snippets are in the files mentioned above
+
+---
+
+#### Challenges:
+- Ensuring that the API endpoints work as intended.
+- Made sure that each of the endpoints that need a token to get data works.
+- Making sure that I have a good and better understanding of how React and Redux work
+
+---
+
+#### Solutions:
+
+
+
+---
+
+#### Lessons Learned:
+- Deeper understanding of how authentication works for the backend.
+
+---

@@ -1,11 +1,12 @@
 from fastapi import APIRouter, Depends, Response
+from authenticator import authenticator
 from typing import List, Union
 from queries.products import (
     Error,
     ProductsIn,
     ProductRepository,
     ProductsOut,
-    PUpdate
+    PUpdate,
 )
 from uuid import UUID
 
@@ -17,6 +18,7 @@ router = APIRouter()
 def create_product(
     product: ProductsIn,
     response: Response,
+    account_data: dict = Depends(authenticator.get_current_account_data),
     repo: ProductRepository = Depends(),
 ):
     return repo.create_product(product)
@@ -32,6 +34,7 @@ def get_all(
 @router.delete("/products/{product_id}", response_model=bool)
 def delete_product(
     product_id: UUID,
+    account_data: dict = Depends(authenticator.get_current_account_data),
     repo: ProductRepository = Depends(),
 ) -> bool:
     return repo.delete_product(product_id)
@@ -41,7 +44,8 @@ def delete_product(
 def update_product(
     product_id: UUID,
     product: PUpdate,
-    repo: ProductRepository = Depends()
+    account_data: dict = Depends(authenticator.get_current_account_data),
+    repo: ProductRepository = Depends(),
 ) -> Union[ProductsOut, Error]:
     return repo.update_product(product_id, product)
 
@@ -49,6 +53,6 @@ def update_product(
 @router.get("/products/{product_id}", response_model=Union[ProductsOut, Error])
 def get_product_by_id(
     product_id: UUID,
-    repo: ProductRepository = Depends()
+    repo: ProductRepository = Depends(),
 ) -> Union[ProductsOut, Error]:
     return repo.get_product_by_id(product_id)
