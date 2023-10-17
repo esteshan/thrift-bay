@@ -6,6 +6,7 @@ from queries.reviews import (
     ReviewsIn,
     ReviewRepository,
     ReviewsOut,
+    CreateReviewsOut,
     RUpdate,
 )
 from uuid import UUID
@@ -14,7 +15,7 @@ from uuid import UUID
 router = APIRouter()
 
 
-@router.post("/reviews", response_model=Union[ReviewsOut, Error])
+@router.post("/reviews", response_model=Union[CreateReviewsOut, Error])
 def create_review(
     review: ReviewsIn,
     response: Response,

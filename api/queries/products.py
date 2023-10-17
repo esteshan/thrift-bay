@@ -4,6 +4,8 @@ from queries.pool import pool
 from datetime import date
 from uuid import UUID
 import uuid
+from queries.categories import CategoryOut
+from queries.users import UserOut
 
 
 class Error(BaseModel):
@@ -45,6 +47,20 @@ class ProductsOut(BaseModel):
     description: str
     item_price: int
     sold: bool = False
+    category: CategoryOut
+    user_product: UserOut
+    created_at: date
+
+
+class CreateProductsOut(BaseModel):
+    product_id: UUID
+    name: str
+    picture_url: str
+    color: str
+    size: str
+    description: Optional[str]
+    item_price: int
+    sold: bool = False
     category: UUID
     user_product: UUID
     created_at: date
@@ -61,19 +77,27 @@ class ProductRepository:
                     result = db.execute(
                         """
                         SELECT
-                            product_id,
-                            name,
-                            picture_url,
-                            color,
-                            size,
-                            description,
-                            item_price,
-                            sold,
-                            category,
-                            user_product,
-                            created_at
-                        FROM products
-                        ORDER BY created_at;
+                            p.product_id,
+                            p.name,
+                            p.picture_url,
+                            p.color,
+                            p.size,
+                            p.description,
+                            p.item_price,
+                            p.sold,
+                            p.category,
+                            c.name AS category_name,
+                            c.created_at AS category_created_at,
+                            p.user_product,
+                            u.first_name AS user_first_name,
+                            u.last_name AS user_last_name,
+                            u.username AS user_username,
+                            u.email AS user_email,
+                            p.created_at
+                        FROM products p
+                        LEFT JOIN categories c ON p.category = c.category_id
+                        LEFT JOIN users u ON p.user_product = u.user_id
+                        ORDER BY p.created_at;
                         """
                     )
                     return [
@@ -85,12 +109,13 @@ class ProductRepository:
             return {"message": "Could not get all products"}
 
     def update_product(
-            self, product_id: UUID, product: PUpdate
-            ) -> Union[ProductsOut, Error]:
+        self, product_id: UUID, product: PUpdate
+    ) -> Union[ProductsOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
-                    db.execute("""
+                    db.execute(
+                        """
                         UPDATE products
                         SET
                             name = COALESCE(%s, name),
@@ -105,21 +130,24 @@ class ProductRepository:
                         WHERE
                             product_id = %s
                         RETURNING product_id;
-                    """, [
-                        product.name,
-                        product.picture_url,
-                        product.color,
-                        product.size,
-                        product.description,
-                        product.item_price,
-                        product.sold,
-                        product.category,
-                        product.user_product,
-                        product_id,
-                    ])
+                    """,
+                        [
+                            product.name,
+                            product.picture_url,
+                            product.color,
+                            product.size,
+                            product.description,
+                            product.item_price,
+                            product.sold,
+                            product.category,
+                            product.user_product,
+                            product_id,
+                        ],
+                    )
                     updated_product_id = db.fetchone()[0]
                     updated_product = self.get_product_by_id(
-                        updated_product_id)
+                        updated_product_id
+                    )
                     return updated_product
         except Exception as e:
             print(e)
@@ -129,22 +157,33 @@ class ProductRepository:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
-                    db.execute("""
+                    db.execute(
+                        """
                         SELECT
-                            product_id,
-                            name,
-                            picture_url,
-                            color,
-                            size,
-                            description,
-                            item_price,
-                            sold,
-                            category,
-                            user_product,
-                            created_at
-                        FROM products
-                        WHERE product_id = %s
-                    """, [product_id])
+                            p.product_id,
+                            p.name,
+                            p.picture_url,
+                            p.color,
+                            p.size,
+                            p.description,
+                            p.item_price,
+                            p.sold,
+                            p.category,
+                            c.name AS category_name,
+                            c.created_at AS category_created_at,
+                            p.user_product,
+                            u.first_name AS user_first_name,
+                            u.last_name AS user_last_name,
+                            u.username AS user_username,
+                            u.email AS user_email,
+                            p.created_at
+                        FROM products p
+                        LEFT JOIN users u ON p.user_product = u.user_id
+                        LEFT JOIN categories c ON p.category = c.category_id
+                        WHERE p.product_id = %s;
+                    """,
+                        [product_id],
+                    )
                     record = db.fetchone()
                     if record:
                         return self.record_to_products_out(record)
@@ -164,14 +203,16 @@ class ProductRepository:
                         DELETE FROM products
                         WHERE product_id = %s
                         """,
-                        [product_id]
+                        [product_id],
                     )
                     return True
         except Exception as e:
             print(e)
             return False
 
-    def create_product(self, product: ProductsIn) -> Union[ProductsOut, Error]:
+    def create_product(
+        self, product: ProductsIn
+    ) -> Union[CreateProductsOut, Error]:
         try:
             product_id = uuid.uuid4()
             print(f"Generated product_id: {product_id}")
@@ -215,16 +256,24 @@ class ProductRepository:
                     )
                     product_id = result.fetchone()[0]
                     print(f"Inserted product_id: {product_id}")
-                    return self.product_in_to_out(product_id, product)
+                    return CreateProductsOut(
+                        product_id=product_id,
+                        name=product.name,
+                        picture_url=product.picture_url,
+                        color=product.color,
+                        size=product.size,
+                        description=product.description,
+                        item_price=product.item_price,
+                        sold=product.sold,
+                        category=product.category,
+                        user_product=product.user_product,
+                        created_at=product.created_at,
+                    )
         except Exception as e:
             print(e)
             return Error(
                 message="An error occurred while creating the product"
             )
-
-    def product_in_to_out(self, product_id: UUID, product: ProductsIn):
-        old_data = product.dict()
-        return ProductsOut(product_id=product_id, **old_data)
 
     def record_to_products_out(self, record):
         return ProductsOut(
@@ -236,7 +285,17 @@ class ProductRepository:
             description=record[5],
             item_price=record[6],
             sold=record[7],
-            category=record[8],
-            user_product=record[9],
-            created_at=record[10],
+            category=CategoryOut(
+                category_id=record[8],
+                name=record[9],
+                created_at=record[10],
+            ),
+            user_product=UserOut(
+                user_id=str(record[11]),
+                first_name=record[12],
+                last_name=record[13],
+                username=record[14],
+                email=record[15],
+            ),
+            created_at=record[16],
         )

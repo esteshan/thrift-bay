@@ -6,6 +6,7 @@ from queries.checkout import (
     CheckoutIn,
     CheckoutRepository,
     CheckoutOut,
+    CreateCheckoutOut,
 )
 from uuid import UUID
 
@@ -13,7 +14,7 @@ from uuid import UUID
 router = APIRouter()
 
 
-@router.post("/checkout", response_model=Union[CheckoutOut, Error])
+@router.post("/checkout", response_model=Union[CreateCheckoutOut, Error])
 def create_checkout(
     checkout: CheckoutIn,
     response: Response,
