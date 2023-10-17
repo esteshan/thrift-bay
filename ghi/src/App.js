@@ -4,7 +4,7 @@ import SignupForm from './pages/Signup/SignupForm';
 import LoginForm from './pages/Login/LoginForm';
 import Nav from './components/Navbar';
 import ProductDetail from "./pages/ProductDetail";
-import Home from "./pages/Home/Home";
+import Home from "./components/Home";
 
 function App() {
   const domain = /https:\/\/[^/]+/;
