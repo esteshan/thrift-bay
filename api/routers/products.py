@@ -6,6 +6,7 @@ from queries.products import (
     ProductsIn,
     ProductRepository,
     ProductsOut,
+    CreateProductsOut,
     PUpdate,
 )
 from uuid import UUID
@@ -14,7 +15,7 @@ from uuid import UUID
 router = APIRouter()
 
 
-@router.post("/products", response_model=Union[ProductsOut, Error])
+@router.post("/products", response_model=Union[CreateProductsOut, Error])
 def create_product(
     product: ProductsIn,
     response: Response,
