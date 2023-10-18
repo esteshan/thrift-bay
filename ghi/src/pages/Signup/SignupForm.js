@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useToken from "@galvanize-inc/jwtdown-for-react";
-import { useNavigate } from "react-router-dom";
+
 
 const SignupForm = () => {
   const [username, setUsername] = useState("");
@@ -9,7 +9,7 @@ const SignupForm = () => {
   const [last, setLast] = useState("");
   const [email, setEmail] = useState("");
   const { register } = useToken();
-  const navigate = useNavigate();
+
 
   const handleRegistration = (e) => {
     e.preventDefault();
