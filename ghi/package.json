@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@reduxjs/toolkit": "^1.9.7",
+    "daisyui": "^3.9.3",
     "install": "^0.13.0",
     "npm": "^10.2.0",
     "react-redux": "^8.1.3",

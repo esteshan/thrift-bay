@@ -13,6 +13,7 @@ function App() {
   return (
     <div className="container">
       <BrowserRouter basename={basename}>
+        <Nav />
         <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
           <Routes>
             <Route path="/" element={<Home />}></Route>
