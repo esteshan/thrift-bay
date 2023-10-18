@@ -1,4 +1,4 @@
-import "./index.css";
+
 import { useGetProductsQuery } from "../store/productsApi";
 
 function Products() {
