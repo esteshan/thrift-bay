@@ -17,25 +17,6 @@ const Nav = () => {
             className="items-center cursor-pointer justify-center flex min-h-[2.75rem]"
             style={{ minWidth: "2.75rem" }}
           >
-            <NavLink
-              to="/likes"
-              className="text-neutral-800 items-center justify-center flex min-h-[inherit]"
-              style={{ minWidth: "inherit" }}
-            >
-              {/* SVG icon for Likes */}
-            </NavLink>
-          </li>
-          <li
-            className="items-center cursor-pointer justify-center flex min-h-[2.75rem]"
-            style={{ minWidth: "2.75rem" }}
-          >
-            <NavLink
-              to="/bag"
-              className="text-neutral-800 items-center justify-center flex min-h-[inherit]"
-              style={{ minWidth: "inherit" }}
-            >
-              {/* SVG icon for Bag */}
-            </NavLink>
           </li>
           <li
             className="items-center cursor-pointer justify-center flex min-h-[2.75rem]"
