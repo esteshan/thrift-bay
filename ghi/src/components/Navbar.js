@@ -1,11 +1,16 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import boat from '../assets/boat.png';
 
 const Nav = () => {
   return (
     <div className="items-center border-b-2 justify-between py-3 px-8 flex min-h-[4.06rem] border-zinc-300 border-solid">
-      {/* ... other parts remain the same */}
-
+      <div className="flex items-center">
+        <NavLink to="/">
+          <img src={boat} alt="Logo" className="h-16 w-16" />
+          <span className="ml-2 text-lg font-semibold">thriftBay</span>
+        </NavLink>
+      </div>
       <nav className="flex h-8 ml-auto">
         <ul className="items-center justify-between flex list-disc -ml-1 gap-1 ml-auto">
           <li
