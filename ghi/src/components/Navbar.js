@@ -1,32 +1,60 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Nav = () => {
   return (
     <div className="items-center border-b-2 justify-between py-3 px-8 flex min-h-[4.06rem] border-zinc-300 border-solid">
-      {/* ... your code ... */}
-      <section className="bottom-[13.75rem] left-[2.00rem] absolute right-[189.75rem] top-[-6.25rem]">
-        {/* ... skipped for brevity ... */}
-      </section>
-      <a
-        href="https://www.depop.com/"
-        className="text-blue-700 cursor-pointer underline"
-      >
-        {/* ... skipped SVG for brevity ... */}
-      </a>
-      <div>
-        <div className="flex-col flex ml-6">
-          <form
-            style={{ maxWidth: "44.00rem" }}
-            className="relative flex w-[calc(42vw)] m-auto"
+      {/* ... other parts remain the same */}
+
+      <nav className="flex h-8 ml-auto">
+        <ul className="items-center justify-between flex list-disc -ml-1 gap-1 ml-auto">
+          <li
+            className="items-center cursor-pointer justify-center flex min-h-[2.75rem]"
+            style={{ minWidth: "2.75rem" }}
           >
-            {/* ... skipped for brevity ... */}
-          </form>
-        </div>
-      </div>
-      <nav className="flex h-8">
-        <ul className="items-center justify-between flex list-disc -ml-1 gap-1">
-          {/* ... skipped list items for brevity ... */}
+            <NavLink
+              to="/likes"
+              className="text-neutral-800 items-center justify-center flex min-h-[inherit]"
+              style={{ minWidth: "inherit" }}
+            >
+              {/* SVG icon for Likes */}
+            </NavLink>
+          </li>
+          <li
+            className="items-center cursor-pointer justify-center flex min-h-[2.75rem]"
+            style={{ minWidth: "2.75rem" }}
+          >
+            <NavLink
+              to="/bag"
+              className="text-neutral-800 items-center justify-center flex min-h-[inherit]"
+              style={{ minWidth: "inherit" }}
+            >
+              {/* SVG icon for Bag */}
+            </NavLink>
+          </li>
+          <li
+            className="items-center cursor-pointer justify-center flex min-h-[2.75rem]"
+            style={{ minWidth: "2.75rem" }}
+          >
+            <NavLink
+              to="/signup"
+              className="text-white bg-neutral-800 items-center justify-center py-1 px-4 flex mx-1 border-2 border-neutral-800 border-solid rounded-sm"
+            >
+              Sign up
+            </NavLink>
+          </li>
+          <li
+            className="items-center cursor-pointer justify-center flex min-h-[2.75rem]"
+            style={{ minWidth: "2.75rem" }}
+          >
+            <NavLink
+              to="/login"
+              className="text-neutral-800 items-center justify-center flex min-h-[inherit]"
+              style={{ minWidth: "inherit" }}
+            >
+              Log in
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </div>
