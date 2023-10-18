@@ -47,9 +47,9 @@ function ProductDetail() {
                                 <td>{product.size}</td>
                                 <td>{product.description}</td>
                                 <td>{product.item_price}</td>
-                                <td>{product.sold}</td>
-                                <td>{product.category}</td>
-                                <td>{product.user_product}</td>
+                                <td>{product.sold ? "Yes" : "No"}</td>
+                                <td>{product.category && product.category.name}</td>
+                                <td>{product.user_product && product.user_product.username}</td>
                                 <td>{product.created_at}</td>
                             </tr>
                         </tbody>
