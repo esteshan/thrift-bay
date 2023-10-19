@@ -11,7 +11,7 @@ function Nav() {
                 <div>
                     <ul>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/...enter pg name">Display Page Name</NavLink>
+                            <NavLink className="nav-link" to="/checkout">Checkout</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/products">Product</NavLink>

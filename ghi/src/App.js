@@ -3,8 +3,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SignupForm from './pages/Signup/SignupForm';
 import LoginForm from './pages/Login/LoginForm';
 import Nav from './components/Navbar';
+import ProductDetail from "./components/ProductDetail";
 import Home from "./components/Home";
-import ProductDetail from './components/ProductDetail';
+import CheckoutForm from './pages/Checkout/CheckoutForm';
 
 function App() {
   const domain = /https:\/\/[^/]+/;
@@ -18,7 +19,8 @@ function App() {
             <Route path="/" element={<Home />}></Route>
             <Route path="/signup" element={<SignupForm />}></Route>
             <Route path="/login" element={<LoginForm />}></Route>
-            <Route path="/products/:product_id" element={<ProductDetail />}></Route>
+            <Route path="products/:product_id" element={<ProductDetail />} />
+            <Route path="checkout/:product_id" element={<CheckoutForm />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>
