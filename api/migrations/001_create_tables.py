@@ -6,8 +6,8 @@ steps = [
             user_id UUID PRIMARY KEY NOT NULL,
             first_name VARCHAR(25) NOT NULL,
             last_name VARCHAR(25) NOT NULL,
-            username VARCHAR(25) NOT NULL,
-            email VARCHAR(50) NOT NULL,
+            username VARCHAR(25) NOT NULL UNIQUE,
+            email VARCHAR(50) NOT NULL UNIQUE,
             password_hash VARCHAR(128) NOT NULL
         );
         """,
