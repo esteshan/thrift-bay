@@ -179,3 +179,46 @@ Create and finish a working product that can work towards our MVP.
 - Gained proficiency in working with FastAPI and with React. Furthermore, I also learned how to use redux and work with slices, store, and the actual page that I am attempting to render data onto.
 
 ---
+
+
+
+### Journal Entry - 10/19/2023
+
+---
+
+#### Task:
+
+- Create a Unit Test
+
+
+#### Objective:
+
+Create and finish a working unit test for users.
+
+---
+
+#### Steps Taken:
+
+- Created a unit test for getting users.
+
+---
+
+#### Key Code Snippets:
+- Key code snippets are inside of `api.tests.test_get_users.py`
+---
+
+#### Challenges:
+- Ensuring that the test runs fully and correctly
+
+---
+
+#### Solutions:
+
+
+
+---
+
+#### Lessons Learned:
+- Learned how to create a unit test
+
+---

@@ -106,7 +106,7 @@ class ProductRepository:
                     ]
         except Exception as e:
             print(e)
-            return {"message": "Could not get all products"}
+            return Error(message="Could not get all products"), 404
 
     def update_product(
         self, product_id: UUID, product: PUpdate
@@ -151,7 +151,7 @@ class ProductRepository:
                     return updated_product
         except Exception as e:
             print(e)
-            return Error(message="An error occurred updating the product")
+            return Error(message="An error occurred updating the product"), 404
 
     def get_product_by_id(self, product_id: UUID) -> Union[ProductsOut, Error]:
         try:
@@ -188,9 +188,9 @@ class ProductRepository:
                     if record:
                         return self.record_to_products_out(record)
                     else:
-                        return Error(message="Product not found")
+                        return Error(message="Product not found"), 404
         except Exception as e:
-            return Error(message=f"error occurred fetching product: {e}")
+            return Error(message=f"error occurred fetching product: {e}"), 404
 
     def delete_product(self, product_id: UUID) -> bool:
         try:
@@ -207,8 +207,10 @@ class ProductRepository:
                     )
                     return True
         except Exception as e:
-            print(e)
-            return False
+            return (
+                Error(message=f"An error occurred deleting the product: {e}"),
+                404,
+            )
 
     def create_product(
         self, product: ProductsIn
@@ -271,8 +273,9 @@ class ProductRepository:
                     )
         except Exception as e:
             print(e)
-            return Error(
-                message="An error occurred while creating the product"
+            return (
+                Error(message="An error occurred while creating the product"),
+                404,
             )
 
     def record_to_products_out(self, record):
