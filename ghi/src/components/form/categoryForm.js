@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useCreateCategoryMutation } from "../../store/categoryApi";
 import { useNavigate } from "react-router-dom";
+// import Categories from "../Categories";
 
 function CategoryForm() {
   const navigate = useNavigate();

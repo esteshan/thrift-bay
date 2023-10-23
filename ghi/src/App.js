@@ -8,6 +8,7 @@ import UserProfile from './components/UserProfile';
 import Products from "./components/Products";
 import Categories from './components/Categories';
 import CategoryForm from './components/form/categoryForm';
+import NewProduct from './components/form/createProductForm';
 
 function App() {
   const domain = /https:\/\/[^/]+/;
@@ -26,6 +27,7 @@ function App() {
             <Route path="/login" element={<LoginForm />}></Route>
             <Route path="/users/:username" element={<UserProfile />}></Route>/
             <Route path="/products/:product_id" element={<ProductDetail />}></Route>
+            <Route path="/products/new" element={<NewProduct />}></Route>
           </Routes>
         </AuthProvider>
       </BrowserRouter>
