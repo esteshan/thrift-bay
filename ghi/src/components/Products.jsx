@@ -1,5 +1,6 @@
 
 import { useGetProductsQuery } from "../store/productsApi";
+import { Link } from "react-router-dom"
 
 function Products() {
   const { data } = useGetProductsQuery();
@@ -27,7 +28,7 @@ function Products() {
               <div className="mt-4 flex justify-between">
                 <div>
                   <h3 className="text-sm text-gray-700">
-                    <a href={`/products/${product.product_id}`}>
+                    <a href={`products/${product.product_id}`}>
                       <span aria-hidden="true" className="absolute inset-0" />
                       {product.name}
                     </a>
