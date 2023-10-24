@@ -57,7 +57,7 @@ build-front-end-job:
     # You need to substitute in your real values for
     # GROUP_NAME, PROJECT_NAME, & WEBSERVICE_NAME below.
     PUBLIC_URL: https://thrift-bay.gitlab.io/thriftbay/
-    REACT_APP_API_HOST: jun-3-pt-thriftbayapi.mod3projects.com
+    REACT_APP_API_HOST: https://jun-3-pt-thriftbayapi.mod3projects.com
   script:
     - cd ghi
     - npm install
