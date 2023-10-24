@@ -40,7 +40,7 @@ class MockProductRepository(ProductRepository):
             item_price=product.item_price,
             sold=product.sold,
             category=product.category,
-            user_product=product.user_product,
+            user_id=product.user_id,
             created_at=product.created_at,
         )
 
@@ -62,7 +62,7 @@ def test_create_product():
         "item_price": 0,
         "sold": False,
         "category": "1452b491-c914-42e7-b14b-1996678cae4e",
-        "user_product": "cd4bc087-425d-4827-a2c3-a77aa838152d",
+        "user_id": "cd4bc087-425d-4827-a2c3-a77aa838152d",
         "created_at": test_date.isoformat(),
     }
 
@@ -86,7 +86,5 @@ def test_create_product():
     assert response_json["item_price"] == 0
     assert response_json["sold"] == bool(False)
     assert response_json["category"] == "1452b491-c914-42e7-b14b-1996678cae4e"
-    assert (
-        response_json["user_product"] == "cd4bc087-425d-4827-a2c3-a77aa838152d"
-    )
+    assert response_json["user_id"] == "cd4bc087-425d-4827-a2c3-a77aa838152d"
     assert response_json["created_at"] == test_date.isoformat()

@@ -119,7 +119,7 @@ class ReviewRepository:
                             p.item_price AS product_item_price,
                             p.sold AS product_sold,
                             p.category AS product_category,
-                            p.user_product AS product_user,
+                            p.user_id AS product_user,
                             p.created_at AS product_created_at,
                             r.created_at
                         FROM reviews r
@@ -210,7 +210,7 @@ class ReviewRepository:
                 item_price=record[14],
                 sold=record[15],
                 category=record[16],
-                user_product=record[17],
+                user_id=record[17],
                 created_at=record[18],
             ),
             created_at=record[19],

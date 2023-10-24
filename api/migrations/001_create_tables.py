@@ -40,7 +40,7 @@ steps = [
             item_price NUMERIC(7,2) NOT NULL,
             sold BOOLEAN DEFAULT FALSE,
             category UUID REFERENCES categories(category_id),
-            user_product UUID REFERENCES users(user_id),
+            user_id UUID REFERENCES users(user_id),
             created_at TIMESTAMP
         );
         """,

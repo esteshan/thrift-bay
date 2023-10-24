@@ -121,7 +121,7 @@ class CheckoutRepository:
                             p.item_price AS product_item_price,
                             p.sold AS product_sold,
                             p.category AS product_category,
-                            p.user_product AS product_user,
+                            p.user_id AS product_user,
                             p.created_at AS product_created_at,
                             ch.created_at
                         FROM checkout ch
@@ -168,7 +168,7 @@ class CheckoutRepository:
                             p.item_price AS product_item_price,
                             p.sold AS product_sold,
                             p.category AS product_category,
-                            p.user_product AS product_user,
+                            p.user_id AS product_user,
                             p.created_at AS product_created_at,
                             ch.created_at
                         FROM checkout ch
@@ -209,7 +209,7 @@ class CheckoutRepository:
                 item_price=record[16],
                 sold=record[17],
                 category=record[18],
-                user_product=record[19],
+                user_id=record[19],
                 created_at=record[20],
             ),
             created_at=record[21],

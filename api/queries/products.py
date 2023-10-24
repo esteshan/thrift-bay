@@ -21,7 +21,7 @@ class PUpdate(BaseModel):
     item_price: Optional[int]
     sold: Optional[bool]
     category: Optional[UUID]
-    user_product: Optional[UUID]
+    user_id: Optional[UUID]
     created_at: Optional[date]
 
 
@@ -34,7 +34,7 @@ class ProductsIn(BaseModel):
     item_price: int
     sold: bool = False
     category: UUID
-    user_product: UUID
+    user_id: UUID
     created_at: date
 
 
@@ -48,7 +48,7 @@ class ProductsOut(BaseModel):
     item_price: int
     sold: bool = False
     category: CategoryOut
-    user_product: UserOut
+    user_id: UserOut
     created_at: date
 
 
@@ -62,7 +62,7 @@ class CreateProductsOut(BaseModel):
     item_price: int
     sold: bool = False
     category: UUID
-    user_product: UUID
+    user_id: UUID
     created_at: date
 
 
@@ -88,7 +88,7 @@ class ProductRepository:
                             p.category,
                             c.name AS category_name,
                             c.created_at AS category_created_at,
-                            p.user_product,
+                            p.user_id,
                             u.first_name AS user_first_name,
                             u.last_name AS user_last_name,
                             u.username AS user_username,
@@ -96,7 +96,7 @@ class ProductRepository:
                             p.created_at
                         FROM products p
                         LEFT JOIN categories c ON p.category = c.category_id
-                        LEFT JOIN users u ON p.user_product = u.user_id
+                        LEFT JOIN users u ON p.user_id = u.user_id
                         ORDER BY p.created_at;
                         """
                     )
@@ -126,7 +126,7 @@ class ProductRepository:
                             item_price = COALESCE(%s, item_price),
                             sold = COALESCE(%s, sold),
                             category = COALESCE(%s, category),
-                            user_product = COALESCE(%s, user_product)
+                            user_id = COALESCE(%s, user_id)
                         WHERE
                             product_id = %s
                         RETURNING product_id;
@@ -140,7 +140,7 @@ class ProductRepository:
                             product.item_price,
                             product.sold,
                             product.category,
-                            product.user_product,
+                            product.user_id,
                             product_id,
                         ],
                     )
@@ -171,14 +171,14 @@ class ProductRepository:
                             p.category,
                             c.name AS category_name,
                             c.created_at AS category_created_at,
-                            p.user_product,
+                            p.user_id,
                             u.first_name AS user_first_name,
                             u.last_name AS user_last_name,
                             u.username AS user_username,
                             u.email AS user_email,
                             p.created_at
                         FROM products p
-                        LEFT JOIN users u ON p.user_product = u.user_id
+                        LEFT JOIN users u ON p.user_id = u.user_id
                         LEFT JOIN categories c ON p.category = c.category_id
                         WHERE p.product_id = %s;
                     """,
@@ -235,7 +235,7 @@ class ProductRepository:
                             item_price,
                             sold,
                             category,
-                            user_product,
+                            user_id,
                             created_at
                             )
                         VALUES
@@ -252,7 +252,7 @@ class ProductRepository:
                             product.item_price,
                             product.sold,
                             product.category,
-                            product.user_product,
+                            product.user_id,
                             product.created_at,
                         ],
                     )
@@ -268,7 +268,7 @@ class ProductRepository:
                         item_price=product.item_price,
                         sold=product.sold,
                         category=product.category,
-                        user_product=product.user_product,
+                        user_id=product.user_id,
                         created_at=product.created_at,
                     )
         except Exception as e:
@@ -293,7 +293,7 @@ class ProductRepository:
                 name=record[9],
                 created_at=record[10],
             ),
-            user_product=UserOut(
+            user_id=UserOut(
                 user_id=str(record[11]),
                 first_name=record[12],
                 last_name=record[13],

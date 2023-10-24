@@ -16,7 +16,7 @@ function UserProfile() {
   }
 
   const productsBelongingToUser = productData.filter(
-    (product) => product.user_product.user_id === userData.user_id
+    (product) => product.user_id.user_id === userData.user_id
   );
   console.log("Products belonging to user", productsBelongingToUser);
 

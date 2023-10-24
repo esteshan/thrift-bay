@@ -9,9 +9,9 @@ services:
   fastapi:
     # Environment variables for FastAPI application
     environment:
-      SIGNING_KEY: 3fa85f64-5717-4562-b3fc-2c963f66afa6
-      CORS_HOST: http://localhost:3000 # Allowed origin for CORS
-      DATABASE_URL: postgresql://admin:admin@db/thriftbay # Database connection string
+      CORS_HOST: ${CORS_HOST} # Allowed origin for CORS
+      SIGNING_KEY: ${SIGNING_KEY}
+      DATABASE_URL: ${DATABASE_URL} # Database connection string
       WAIT_HOSTS: db:5432 # Wait for the database to be up
       PORT: 8000 # Port FastAPI will run on
 
@@ -47,7 +47,7 @@ services:
       HOST_OS: ${OS} # Operating System
       NODE_ENV: development # Node.js environment
       HOST: "0.0.0.0" # The host address
-      PUBLIC_URL: http://localhost:3000 # Public URL for the app
+      PUBLIC_URL: ${PUBLIC_URL} # Public URL for the app
       REACT_APP_API_HOST: ${REACT_APP_API_HOST} # API host URL
 
   # PostgreSQL database service configuration
