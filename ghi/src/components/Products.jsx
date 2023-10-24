@@ -1,6 +1,5 @@
 
 import { useGetProductsQuery } from "../store/productsApi";
-import { Link } from "react-router-dom"
 
 function Products() {
   const { data } = useGetProductsQuery();
