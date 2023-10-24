@@ -4,11 +4,11 @@ import boat from '../assets/boat.png';
 
 const Nav = () => {
   return (
-    <div className="items-center border-b-2 justify-between py-3 px-8 flex min-h-[4.06rem] border-zinc-300 border-solid">
+    <div className="items-center border-b-2 justify-between py-3 px-8 flex min-h-[4.06rem] border-zinc-300 border-solid" style={{ backgroundColor: '#114B5F' }}>
       <div className="flex items-center">
         <NavLink to="/">
           <img src={boat} alt="Logo" className="h-16 w-16" />
-          <span className="ml-2 text-lg font-semibold">thriftBay</span>
+          <span className="ml-2 text-lg text-white font-semibold">thriftBay</span>
         </NavLink>
       </div>
       <nav className="flex h-8 ml-auto">
@@ -35,7 +35,7 @@ const Nav = () => {
           >
             <NavLink
               to="/login"
-              className="text-neutral-800 items-center justify-center flex min-h-[inherit]"
+              className="text-neutral-800 items-center justify-center flex min-h-[inherit] text-white"
               style={{ minWidth: "inherit" }}
             >
               Log in
