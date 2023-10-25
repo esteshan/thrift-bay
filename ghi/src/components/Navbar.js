@@ -6,7 +6,7 @@ const Nav = () => {
   return (
     <div className="items-center border-b-2 justify-between py-3 px-8 flex min-h-[4.06rem] border-zinc-300 border-solid" style={{ backgroundColor: '#114B5F' }}>
       <div className="flex items-center">
-        <NavLink to="/">
+        <NavLink to="">
           <img src={boat} alt="Logo" className="h-16 w-16" />
           <span className="ml-2 text-lg text-white font-semibold">thriftBay</span>
         </NavLink>

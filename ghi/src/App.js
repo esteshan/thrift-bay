@@ -20,7 +20,7 @@ function App() {
         <Nav />
         <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
           <Routes>
-            <Route path="/" index element={<Products />}></Route>
+            <Route path="" element={<Products />}></Route>
             <Route path="/categories" element={<Categories />}></Route>
             <Route path="/categories/new" element={<CategoryForm />}></Route>
             <Route path="/signup" element={<SignupForm />}></Route>
