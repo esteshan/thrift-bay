@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useCreateProductMutation } from "../../store/newProductApi";
 import { useGetCategoryQuery } from "../../store/categoryApi";
 import { useGetTokenQuery } from "../../store/authApi";
-
+import Products from "../Products";
 
 
 function NewProduct() {
@@ -85,16 +85,10 @@ function NewProduct() {
         created_at
 
     });
-    console.log(user)
-    }
-    // }
 
-    // if (result.isSuccess) {
-    //     navigate("/products");
-    // }
-    // // else if (result.isError) {
-    // //     setError(result.error);
-    // // }
+
+
+    }
 
 
     return (
@@ -109,7 +103,6 @@ function NewProduct() {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                         />
-                        {/* <label htmlFor="Name">Product Name...</label> */}
                     </div>
                     <div>
                         <input
@@ -119,7 +112,6 @@ function NewProduct() {
                             value={picture_url}
                             onChange={(e) => setPicture_url(e.target.value)}
                         />
-                        {/* <label htmlFor="Name">Picture Url...</label> */}
                     </div>
                     <div>
                         <input
@@ -129,7 +121,6 @@ function NewProduct() {
                             value={color}
                             onChange={(e) => setColor(e.target.value)}
                         />
-                        {/* <label htmlFor="Name">First Name...</label> */}
                     </div>
                     <div>
                         <input
@@ -139,7 +130,6 @@ function NewProduct() {
                             value={size}
                             onChange={(e) => setSize(e.target.value)}
                         />
-                        {/* <label htmlFor="Name">First Name...</label> */}
                     </div>
                     <div>
                         <textarea
@@ -149,7 +139,6 @@ function NewProduct() {
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         />
-                        {/* <label htmlFor="Name">First Name...</label> */}
                     </div>
                     <div>
                         <input
@@ -159,16 +148,7 @@ function NewProduct() {
                             value={item_price}
                             onChange={(e) => setItem_price(e.target.value)}
                         />
-                        {/* <label htmlFor="Name">First Name...</label> */}
                     </div>
-                    {/* <div>
-                        <input
-                            type="checkbox"
-                            id="sold"
-                            checked={sold}
-                            onChange={(e) => setSold(e.target.checked)}
-                        />
-                    </div> */}
                     <div>
                         <label htmlFor="created_at">Created At:</label>
                         <input
@@ -195,7 +175,9 @@ function NewProduct() {
                             })}
                         </select>
                     </div>
-                    <button type="submit" disabled={result.isLoading}>Create Product</button>
+                    <button type="submit" disabled={result.isLoading}
+                        onClick={Products}
+                            >Create Product</button>
 
                         {result.isLoading && <p>Loading...</p>}
                         {error && <p>Error: {error}</p>}
