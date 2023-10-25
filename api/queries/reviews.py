@@ -1,5 +1,6 @@
+from fastapi import HTTPException
 from pydantic import BaseModel
-from typing import Optional, Union
+from typing import Optional, Union, List
 from queries.pool import pool
 from datetime import date
 from uuid import UUID
@@ -42,6 +43,37 @@ class CreateReviewsOut(BaseModel):
 
 
 class ReviewRepository:
+    def get_all(self) -> Union[Error, List[ReviewsOut]]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT
+                            r.review_id,
+                            r.rating,
+                            r.comment,
+                            r.user_id,
+                            u.first_name AS user_first_name,
+                            u.last_name AS user_last_name,
+                            u.username AS user_username,
+                            u.email AS user_email,
+                            r.created_at
+                        FROM reviews r
+                        LEFT JOIN users u ON r.user_id = u.user_id
+                        ORDER BY r.created_at;
+                        """
+                    )
+                    return [
+                        self.record_to_reviews_out(record)
+                        for record in result
+                    ]
+        except Exception as e:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Could not list reviews. Error: {str(e)}",
+            )
+
     def create_review(
         self, review: ReviewsIn
     ) -> Union[CreateReviewsOut, Error]:
@@ -178,5 +210,5 @@ class ReviewRepository:
                 username=record[6],
                 email=record[7],
             ),
-            created_at=record[19],
+            created_at=record[8],
         )

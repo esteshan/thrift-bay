@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Response
 from authenticator import authenticator
-from typing import Union
+from typing import Union, List
 from queries.reviews import (
     Error,
     ReviewsIn,
@@ -49,3 +49,10 @@ def delete_review(
     repo: ReviewRepository = Depends(),
 ) -> bool:
     return repo.delete_review(review_id)
+
+
+@router.get("/reviews", response_model=Union[List[ReviewsOut], Error])
+def get_reviews(
+    repo: ReviewRepository = Depends(),
+):
+    return repo.get_all()
