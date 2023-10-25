@@ -18,15 +18,9 @@ function NewProduct() {
     const [ created_at, setCreated_at ] = useState("")
     const [ sold ] = useState(false)
     const [ category, setCategory ] = useState("")
-    const [ user_id, setUserID ] = useState(user ? user.user.user_id :"");
+    // const [ user_id, setUserID ] = useState(user ? user.user.user_id :"");
     const [createProduct, result] = useCreateProductMutation();
-
-
-    useEffect(() =>{
-        if (user && user.user) {
-            setUserID(user.user.user_id);
-    }
-    }, [user]);
+    const user_id  = user?.user.user_id;
 
 
     if (isLoading) {
@@ -36,58 +30,58 @@ function NewProduct() {
     if (isError) {
         return <p>Error: {error.message}</p>;
     }
-    console.log(user.user.user_id)
 
     async function handleSubmit(e) {
     e.preventDefault();
+    if (user_id){
+        const createProductData = {
+            name,
+            picture_url,
+            color,
+            size,
+            description,
+            item_price,
+            sold,
+            category,
+            user_id,
+            created_at
+        };
+        try {
+            await createProduct(createProductData).unwrap();
+        } catch (error) {
+            console.log("Create product failed:", error);
+        }
+    }
 
     // Basic validation
-    if (!name) {
-        setError("Name cannot be empty");
-        return;
-    }
-    if (!picture_url) {
-        setError("Picture url cannot be empty");
-        return;
-    }
-    if (!color) {
-        setError("Color cannot be empty");
-        return;
-    }
-    if (!size) {
-        setError("Size cannot be empty");
-        return;
-    }
-    if (!description) {
-        setError("description cannot be empty");
-        return;
-    }
-    if (!item_price) {
-        setError("item cannot be empty");
-        return;
-    }
-    if (!categories) {
-        setError("please select a category");
-        return;
-    }
-
-    // Trigger the mutation
-    createProduct({
-        name,
-        picture_url,
-        color,
-        size,
-        description,
-        item_price,
-        sold,
-        category,
-        user_id,
-        created_at
-
-    });
-
-
-
+        if (!name) {
+            setError("Name cannot be empty");
+            return;
+        }
+        if (!picture_url) {
+            setError("Picture url cannot be empty");
+            return;
+        }
+        if (!color) {
+            setError("Color cannot be empty");
+            return;
+        }
+        if (!size) {
+            setError("Size cannot be empty");
+            return;
+        }
+        if (!description) {
+            setError("description cannot be empty");
+            return;
+        }
+        if (!item_price) {
+            setError("item cannot be empty");
+            return;
+        }
+        if (!categories) {
+            setError("please select a category");
+            return;
+        }
     }
 
 
