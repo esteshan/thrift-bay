@@ -26,9 +26,10 @@ function CategoryForm() {
   // Navigate on success
   if (result.isSuccess) {
     navigate("/categories");
-  } else if (result.isError) {
-    setError(result.error);
-  }
+    }
+  //   else if (result.isError) {
+  // //   setError(result.error);
+  // // }
 
   return (
     <form onSubmit={handleSubmit}>

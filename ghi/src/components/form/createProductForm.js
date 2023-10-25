@@ -1,29 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCreateProductMutation } from "../../store/newProductApi";
 import { useGetCategoryQuery } from "../../store/categoryApi";
-import { useNavigate } from "react-router-dom";
-import { useGetUsersQuery } from "../../store/userProfileApi";
-import { initializeUseSelector } from "react-redux/es/hooks/useSelector";
-// from datetime import date;
+import { useGetTokenQuery } from "../../store/authApi";
+
 
 
 function NewProduct() {
-    const navigate = useNavigate();
+    const { data: categories, isLoading, isError } = useGetCategoryQuery();
+    const { data: user } = useGetTokenQuery();
     const [ name, setName ] = useState("")
     const [ picture_url, setPicture_url ] = useState("")
     const [ color, setColor ] = useState("")
     const [ size, setSize ] = useState("")
     const [ description, setDescription ] = useState("")
-    const [ item_price, setItem_price ] = useState("")
+    const [ item_price, setItem_price ] = useState(0)
     const [ error, setError ] = useState("")
     const [ created_at, setCreated_at ] = useState("")
-    const [ sold, setSold ] = useState("")
+    const [ sold, setSold ] = useState(false)
     const [ category, setCategory ] = useState("")
-    const { data } = useGetCategoryQuery();
-    const { user_product } = useGetUsersQuery();
-
+    const [ user_id, setUserID ] = useState(user ? user.user.user_id :"");
     const [createProduct, result] = useCreateProductMutation();
 
+
+    useEffect(() =>{
+        if (user && user.user) {
+            setUserID(user.user.user_id);
+    }
+    }, [user]);
+
+
+    if (isLoading) {
+        return <p>Loading...</p>;
+    }
+
+    if (isError) {
+        return <p>Error: {error.message}</p>;
+    }
+    console.log(user.user.user_id)
 
     async function handleSubmit(e) {
     e.preventDefault();
@@ -53,22 +66,35 @@ function NewProduct() {
         setError("item cannot be empty");
         return;
     }
-    if (!data) {
+    if (!categories) {
         setError("please select a category");
         return;
     }
 
     // Trigger the mutation
-    createProduct({name, picture_url ,color ,size ,description ,item_price ,category ,sold ,created_at ,user_product });
-    console.log(user_product)
+    createProduct({
+        name,
+        picture_url,
+        color,
+        size,
+        description,
+        item_price,
+        sold,
+        category,
+        user_id,
+        created_at
+
+    });
+    console.log(user)
     }
     // }
 
-    if (result.isSuccess) {
-        navigate("/products");
-    } else if (result.isError) {
-        setError(result.error);
-    }
+    // if (result.isSuccess) {
+    //     navigate("/products");
+    // }
+    // // else if (result.isError) {
+    // //     setError(result.error);
+    // // }
 
 
     return (
@@ -87,7 +113,7 @@ function NewProduct() {
                     </div>
                     <div>
                         <input
-                            type="url"
+                            type="text"
                             id="picture_url"
                             placeholder="Picture Url"
                             value={picture_url}
@@ -135,14 +161,14 @@ function NewProduct() {
                         />
                         {/* <label htmlFor="Name">First Name...</label> */}
                     </div>
-                    <div>
+                    {/* <div>
                         <input
                             type="checkbox"
                             id="sold"
                             checked={sold}
                             onChange={(e) => setSold(e.target.checked)}
                         />
-                    </div>
+                    </div> */}
                     <div>
                         <label htmlFor="created_at">Created At:</label>
                         <input
@@ -152,32 +178,24 @@ function NewProduct() {
                             onChange={(e) => setCreated_at(e.target.value)}
                         />
                     </div>
-                    <select onChange={(e) => setCategory(e.target.value)}>
-                        <option value="">Select a Category...</option>
-                        {/* {data isLoading && <p>Loading...</p>} */}
-                        {data &&
-                            data.map(category => (
-                            <option
-                                key={category.category_id}
-                                value={category.category_id}
+                    <div>
+                        <select
+                            onChange={(e) => setCategory(e.target.value)}
+                            required
+                            id="category"
+                            className="form-select"
                             >
-                                {category.name}
-                            </option>
-                            ))
-                        }
-                    </select>
-
-                    {/* <select>
-                        <option value="">Select a Category...</option>
-                        {categories?.isLoading
-                        ? <p>Loading...</p>
-                            :categories?.data?.map((category) => {
-                        return(
-                            <option key={category.category_id} value={category.category_id}>{`Categories: ${category.name}`}</option>
-                        )
-                        })}
-                    </select> */}
-                        <button type="submit" disabled={result.isLoading}>Create Product</button>
+                            <option value="">Choose a category</option>
+                            {categories.map((category) => {
+                                return (
+                                <option key={category.category_id} value={category.category_id}>
+                                    {category.name}
+                                </option>
+                                );
+                            })}
+                        </select>
+                    </div>
+                    <button type="submit" disabled={result.isLoading}>Create Product</button>
 
                         {result.isLoading && <p>Loading...</p>}
                         {error && <p>Error: {error}</p>}
