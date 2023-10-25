@@ -72,7 +72,6 @@ steps = [
             rating INTEGER,
             comment TEXT,
             user_id UUID REFERENCES users(user_id),
-            product_id UUID REFERENCES products(product_id),
             created_at TIMESTAMP
         );
         """,
