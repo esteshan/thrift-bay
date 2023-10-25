@@ -5,7 +5,6 @@ from datetime import date
 from uuid import UUID
 import uuid
 from queries.users import UserOut
-from queries.products import CreateProductsOut
 
 
 class Error(BaseModel):
@@ -16,7 +15,6 @@ class RUpdate(BaseModel):
     rating: Optional[int]
     comment: Optional[str]
     user_id: Optional[UUID]
-    product_id: Optional[UUID]
     created_at: Optional[date]
 
 
@@ -24,7 +22,6 @@ class ReviewsIn(BaseModel):
     rating: int
     comment: str
     user_id: UUID
-    product_id: UUID
     created_at: date
 
 
@@ -33,7 +30,6 @@ class ReviewsOut(BaseModel):
     rating: int
     comment: str
     user_id: UserOut
-    product_id: CreateProductsOut
     created_at: date
 
 
@@ -42,7 +38,6 @@ class CreateReviewsOut(BaseModel):
     rating: int
     comment: str
     user_id: UUID
-    product_id: UUID
     created_at: date
 
 
@@ -65,11 +60,10 @@ class ReviewRepository:
                             rating,
                             comment,
                             user_id,
-                            product_id,
                             created_at
                             )
                         VALUES
-                            (%s, %s, %s, %s, %s, %s)
+                            (%s, %s, %s, %s, %s)
                         RETURNING review_id;
                         """,
                         [
@@ -77,7 +71,6 @@ class ReviewRepository:
                             review.rating,
                             review.comment,
                             review.user_id,
-                            review.product_id,
                             review.created_at,
                         ],
                     )
@@ -88,7 +81,6 @@ class ReviewRepository:
                         rating=review.rating,
                         comment=review.comment,
                         user_id=review.user_id,
-                        product_id=review.product_id,
                         created_at=review.created_at,
                     )
         except Exception as e:
@@ -110,21 +102,9 @@ class ReviewRepository:
                             u.last_name AS user_last_name,
                             u.username AS user_username,
                             u.email AS user_email,
-                            r.product_id,
-                            p.name AS product_name,
-                            p.picture_url AS product_picture_url,
-                            p.color AS product_color,
-                            p.size AS product_size,
-                            p.description AS product_description,
-                            p.item_price AS product_item_price,
-                            p.sold AS product_sold,
-                            p.category AS product_category,
-                            p.user_id AS product_user,
-                            p.created_at AS product_created_at,
                             r.created_at
                         FROM reviews r
                         LEFT JOIN users u ON r.user_id = u.user_id
-                        LEFT JOIN products p ON r.product_id = p.product_id
                         WHERE r.review_id = %s
                     """,
                         [review_id],
@@ -150,7 +130,6 @@ class ReviewRepository:
                             rating = COALESCE(%s, rating),
                             comment = COALESCE(%s, comment),
                             user_id = COALESCE(%s, user_id),
-                            product_id = COALESCE(%s, product_id)
                         WHERE
                             review_id = %s
                         RETURNING review_id;
@@ -159,7 +138,6 @@ class ReviewRepository:
                             review.rating,
                             review.comment,
                             review.user_id,
-                            review.product_id,
                             review_id,
                         ],
                     )
@@ -199,19 +177,6 @@ class ReviewRepository:
                 last_name=record[5],
                 username=record[6],
                 email=record[7],
-            ),
-            product_id=CreateProductsOut(
-                product_id=record[8],
-                name=record[9],
-                picture_url=record[10],
-                color=record[11],
-                size=record[12],
-                description=record[13],
-                item_price=record[14],
-                sold=record[15],
-                category=record[16],
-                user_id=record[17],
-                created_at=record[18],
             ),
             created_at=record[19],
         )
