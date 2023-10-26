@@ -34,7 +34,7 @@ function App() {
             <Route path="/products/new" element={<NewProduct />}></Route>
             <Route path="/users/:username/reviews/new" element={<ReviewsForm />}></Route>
             <Route path="/users/:username/reviews" element={<Reviews />}></Route>
-            <Route path="/checkout:product_id" element={<Checkout />} ></Route>
+            <Route path="/checkout/:product_id" element={<Checkout />} ></Route>
             <Route path="/complete" element={<ThankYouPage />} ></Route>
           </Routes>
         </AuthProvider>

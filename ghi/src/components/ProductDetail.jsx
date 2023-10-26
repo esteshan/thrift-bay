@@ -54,7 +54,7 @@ function ProductDetail() {
         className="rounded-lg bg-gray-100 w-full h-auto"
         />
     </div>
-    <button onClick={handleCheckout} className="btn btn-primary">
+    <button onClick={handleCheckout} className="px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3">
         Checkout
     </button>
     </div>
