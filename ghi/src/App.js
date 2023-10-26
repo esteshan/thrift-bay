@@ -10,6 +10,8 @@ import Categories from './components/Categories';
 import CategoryForm from './components/form/categoryForm';
 import ReviewsForm from './components/form/reviewsForm';
 import Reviews from './components/Reviews';
+import Checkout from './components/form/checkoutForm';
+import ThankYouPage from './components/checkoutComplete';
 
 function App() {
   const domain = /https:\/\/[^/]+/;
@@ -28,8 +30,10 @@ function App() {
             <Route path="/login" element={<LoginForm />}></Route>
             <Route path="/users/:username" element={<UserProfile />}></Route>
             <Route path="/products/:product_id" element={<ProductDetail />}></Route>
+            <Route path="/checkout/:product_id" element={<Checkout />}></Route>
             <Route path="/users/:username/reviews/new" element={<ReviewsForm />}></Route>
             <Route path="/users/:username/reviews" element={<Reviews />}></Route>
+            <Route path="/complete" element={<ThankYouPage />}></Route>
           </Routes>
         </AuthProvider>
       </BrowserRouter>

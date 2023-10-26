@@ -5,6 +5,7 @@ import { productDetailApi } from "./detailApi";
 import { usersApi } from "./userProfileApi";
 import { categoryApi } from "./categoryApi";
 import { authApi } from "./authApi";
+import { checkoutApi } from "./checkoutApi";
 import { reviewsApi } from "./reviewsApi";
 
 export const store = configureStore({
@@ -14,6 +15,7 @@ export const store = configureStore({
     [productDetailApi.reducerPath]: productDetailApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
     [categoryApi.reducerPath]: categoryApi.reducer,
+    [checkoutApi.reducerPath]: checkoutApi.reducer,
     [reviewsApi.reducerPath]: reviewsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -24,6 +26,7 @@ export const store = configureStore({
       usersApi.middleware,
       categoryApi.middleware,
       usersApi.middleware,
+      checkoutApi.middleware,
       reviewsApi.middleware,
     ),
 });
