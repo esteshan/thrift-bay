@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import boat from "../../assets/boat.png";
 
-
-
 const SignupForm = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -13,7 +11,6 @@ const SignupForm = () => {
   const [last, setLast] = useState("");
   const [email, setEmail] = useState("");
   const { register } = useToken();
-
 
   const handleRegistration = (e) => {
     e.preventDefault();
