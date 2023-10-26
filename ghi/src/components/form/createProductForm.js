@@ -20,7 +20,7 @@ function NewProduct() {
     const [user_id, setUserID] = useState(user ? user.user.user_id : "");
     const [error, setError] = useState("");
     const [created_at, setCreated_at] = useState("");
-    const [sold, setSold] = useState(false);
+    const [sold] = useState(false);
 
     useEffect(() => {
         if (user && user.user) {
