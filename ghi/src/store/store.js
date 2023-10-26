@@ -15,7 +15,7 @@ export const store = configureStore({
     [productDetailApi.reducerPath]: productDetailApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
     [categoryApi.reducerPath]: categoryApi.reducer,
-    [newProductApi.reducerPath]: newProductApi.reducer
+    [newProductApi.reducerPath]: newProductApi.reducer,
     [reviewsApi.reducerPath]: reviewsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -27,7 +27,7 @@ export const store = configureStore({
       categoryApi.middleware,
       usersApi.middleware,
       usersApi.middleware,
-    newProductApi.middleware,
+      newProductApi.middleware,
       reviewsApi.middleware,
   ),
 });
