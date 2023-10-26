@@ -45,6 +45,10 @@ function ProductDetail() {
             <dt className="font-medium text-gray-900">Sold</dt>
             <dd className="mt-2 text-sm text-gray-500">{data?.sold ? "Yes" : "No"}</dd>
         </div>
+        <div className="border-t border-gray-200 pt-4">
+            <dt className="font-medium text-gray-900">Seller</dt>
+            <dd className="mt-2 text-lg text-gray-500">{data?.user_id.username}</dd>
+        </div>
         </dl>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:gap-8">
@@ -54,7 +58,7 @@ function ProductDetail() {
         className="rounded-lg bg-gray-100 w-full h-auto"
         />
     </div>
-    <button onClick={handleCheckout} className="btn btn-primary">
+    <button onClick={handleCheckout} className="px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3">
         Checkout
     </button>
     </div>

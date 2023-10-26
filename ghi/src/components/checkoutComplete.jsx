@@ -1,4 +1,11 @@
+import { useNavigate } from "react-router-dom";
+
 const ThankYouPage = () => {
+    const navigate = useNavigate()
+    function handleRedirect() {
+    navigate("/");
+}
+
     return (
         <div className="bg-gray-100 h-screen">
             <div className="bg-white p-6  md:mx-auto">
@@ -12,9 +19,9 @@ const ThankYouPage = () => {
                     <p className="text-gray-600 my-2">Thank you for completing your checkout.</p>
                     <p> Have a great day! </p>
                     <div className="py-10 text-center">
-                        <a href="/" className="px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3">
+                        <button onClick={handleRedirect} className="px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3">
                             GO BACK TO HOME
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
