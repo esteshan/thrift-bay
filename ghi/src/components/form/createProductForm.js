@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useCreateProductMutation } from "../../store/newProductApi";
 import { useGetCategoryQuery } from "../../store/categoryApi";
 import { useGetTokenQuery } from "../../store/authApi";
-import Products from "../Products";
 
 
 function NewProduct() {
@@ -18,9 +18,9 @@ function NewProduct() {
     const [ created_at, setCreated_at ] = useState("")
     const [ sold ] = useState(false)
     const [ category, setCategory ] = useState("")
-    // const [ user_id, setUserID ] = useState(user ? user.user.user_id :"");
     const [createProduct, result] = useCreateProductMutation();
     const user_id  = user?.user.user_id;
+    const navigate = useNavigate();
 
 
     if (isLoading) {
@@ -31,7 +31,15 @@ function NewProduct() {
         return <p>Error: {error.message}</p>;
     }
 
-    async function handleSubmit(e) {
+
+    // function handleCreate() {
+    //     if (products){
+    //         navigate("/")
+    //     }
+    // }
+
+
+    const handleSubmit = async (e) => {
     e.preventDefault();
     if (user_id){
         const createProductData = {
@@ -48,10 +56,18 @@ function NewProduct() {
         };
         try {
             await createProduct(createProductData).unwrap();
+            navigate("/")
         } catch (error) {
             console.log("Create product failed:", error);
         }
     }
+
+    // function handleCreate() {
+    //     if (products){
+    //         navigate("/")
+    //     }
+    // }
+
 
     // Basic validation
         if (!name) {
@@ -82,6 +98,7 @@ function NewProduct() {
             setError("please select a category");
             return;
         }
+
     }
 
 
@@ -169,9 +186,7 @@ function NewProduct() {
                             })}
                         </select>
                     </div>
-                    <button type="submit" disabled={result.isLoading}
-                        onClick={Products}
-                            >Create Product</button>
+                    <button type="submit">Create Product</button>
 
                         {result.isLoading && <p>Loading...</p>}
                         {error && <p>Error: {error}</p>}
