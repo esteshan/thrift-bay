@@ -1,4 +1,3 @@
-
 import { useGetProductsQuery } from "../store/productsApi";
 
 function Products() {
