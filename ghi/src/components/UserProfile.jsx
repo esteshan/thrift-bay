@@ -64,8 +64,8 @@ function UserProfile() {
   }
 
   return (
-    <div className="relative flex flex-col items-start justify-start">
-      <div style={{ marginLeft: "75px" }}>
+    <div className="relative flex flex-col items-center justify-start">
+      <div style={{ marginLeft: "0px" }}>
         <div className="bg-blue-500 rounded-lg shadow-lg p-4 text-center text-white mt-12" style={{ backgroundColor: '#114B5F' }}>
           <h1 className="text-2xl font-bold mb-4">{userData?.username}'s Profile</h1>
           <table className="table-auto">

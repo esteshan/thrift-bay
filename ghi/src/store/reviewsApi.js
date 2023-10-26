@@ -16,6 +16,7 @@ export const reviewsApi = createApi({
         method: "post",
         body: data,
       }),
+      invalidates: [{ type: 'getReview' }],
     }),
   }),
 });

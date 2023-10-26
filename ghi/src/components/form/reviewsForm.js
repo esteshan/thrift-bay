@@ -10,30 +10,37 @@ function ReviewForm() {
   const [comment, setComment] = useState("");
   const [created_at, setCreated_at] = useState("");
   const [error, setError] = useState("");
-  const [createReview, result] = useCreateReviewMutation();
   const { username } = useParams();
-
-  const { data: user, isError: userError } = useGetUsersQuery(username);
+  const { data: user, isError: userError, refetch } = useGetUsersQuery(username);
+  const [createReview, result] = useCreateReviewMutation();
 
   useEffect(() => {
     const currentDate = new Date().toISOString().split("T")[0];
     setCreated_at(currentDate);
   }, []);
 
+  useEffect(() => {
+    if (result.isSuccess) {
+      refetch();
+      navigate(`/users/${user.username}`);
+    } else if (result.isError) {
+      setError("Failed to create the review.");
+    }
+  }, [result, navigate, user, refetch]);
+
   const handleCreateReview = async () => {
-  try {
-    const reviewData = {
-      rating,
-      comment,
-      created_at,
-      user_id: user.user_id,
-    };
-    await createReview(reviewData);
-    navigate(`/users/${user.username}`);
-  } catch (err) {
-    setError(err.message);
-  }
-};
+    try {
+      const reviewData = {
+        rating,
+        comment,
+        created_at,
+        user_id: user.user_id,
+      };
+      await createReview(reviewData);
+    } catch (err) {
+      setError("Failed to create the review.");
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
