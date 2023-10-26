@@ -52,7 +52,7 @@ function Checkout(){
         try {
             await createCheckout(checkoutData).unwrap();
             updateSoldStatus(jwtToken);
-            navigate(`/complete`);
+            navigate(`${process.env.PUBLIC_URL}/complete`);
         } catch (error) {
         console.error("Checkout Failed:", error);
     }

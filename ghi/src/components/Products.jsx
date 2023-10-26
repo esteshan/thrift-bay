@@ -10,7 +10,7 @@ function Products() {
   }
 
   function handleDetail(product_id) {
-    navigate(`/products/${product_id}`);
+    navigate(`${process.env.PUBLIC_URL}/products/${product_id}`);
   }
 
   return (
