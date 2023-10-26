@@ -105,6 +105,21 @@ const Nav = () => {
                       </NavLink>
                     )}
                   </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                        to={"/products/"}
+                        className={classNames(
+                          active
+                            ? "bg-gray-100 text-gray-900"
+                            : "text-gray-700",
+                          "block px-4 py-2"
+                        )}
+                      >
+                        Create product
+                      </NavLink>
+                    )}
+                  </Menu.Item>
                   {/* Add more list items here for other dropdown options */}
                 </Menu.Items>
               </Transition>
