@@ -16,7 +16,7 @@ function ProductDetail() {
     function handleCheckout() {
     if (data) {
         const product_id = data.product_id;
-        navigate(`${process.env.PUBLIC_URL}/checkout/${product_id}`);
+        navigate(`/checkout/${product_id}`);
     }
 }
 
