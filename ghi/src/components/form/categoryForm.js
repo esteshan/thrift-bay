@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import React, { useState, useEffect } from "react";
 import { useCreateCategoryMutation } from "../../store/categoryApi";
 import { useNavigate } from "react-router-dom";
 // import Categories from "../Categories";
