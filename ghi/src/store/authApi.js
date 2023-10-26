@@ -15,6 +15,14 @@ export const authApi = createApi({
     return headers;
   },
   endpoints: (builder) => ({
+    logout: builder.mutation({
+      query: () => ({
+        url: "/token",
+        method: "delete",
+        credentials: "include",
+      }),
+      invalidatesTags: ["Token"],
+    }),
     createUser: builder.mutation({
       query: (info) => {
         return {
@@ -58,4 +66,6 @@ export const authApi = createApi({
 export const {
   useGetTokenQuery,
   useLoginMutation,
-  useCreateUserMutation } = authApi;
+  useCreateUserMutation,
+  useLogoutMutation,
+} = authApi;

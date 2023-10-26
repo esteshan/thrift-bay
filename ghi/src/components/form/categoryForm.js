@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 function CategoryForm() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [created_at, setCreated_at] = useState(""); 
+  const [created_at, setCreated_at] = useState("");
   const [error, setError] = useState("");
   const [createCategory, result] = useCreateCategoryMutation();
 
