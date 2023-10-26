@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useToken from "@galvanize-inc/jwtdown-for-react";
+import boat from "../../assets/boat.png";
+
 
 
 const SignupForm = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [first, setFirst] = useState("");
@@ -22,77 +26,73 @@ const SignupForm = () => {
     };
     register(accountData, `${process.env.REACT_APP_API_HOST}/users`);
     e.target.reset();
-    // navigate("/");
-    // uncomment out the above line if you want the sign up page to navigate you
-    // somewhere else after sign up has been completed. ie. ("products/")
+    navigate("/");
   };
 
   return (
-    <div className="card text-bg-light mb-3">
-      <h5 className="card-header">Signup</h5>
-      <div className="card-body">
-        <form onSubmit={(e) => handleRegistration(e)}>
-          <div className="mb-3">
-            <label className="form-label">username</label>
+    <section className="bg-white dark:bg-gray-900">
+      <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
+        <form className="w-full max-w-md" onSubmit={handleRegistration}>
+          <img src={boat} alt="Logo" className="h-16 w-16" />
+          <span className="ml-2 text-lg text-black font-semibold">
+            Welcome to the bay!
+          </span>
+          <div className="relative flex items-center mt-8">
             <input
-              name="username"
               type="text"
-              className="form-control"
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
+              className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              placeholder="First name"
+              value={first}
+              onChange={(e) => setFirst(e.target.value)}
             />
           </div>
-          <div className="mb-3">
-            <label className="form-label">password</label>
+          <div className="relative flex items-center mt-8">
             <input
-              name="password"
+              type="text"
+              className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              placeholder="Last name"
+              value={last}
+              onChange={(e) => setLast(e.target.value)}
+            />
+          </div>
+          <div className="relative flex items-center mt-6">
+            <input
+              type="email"
+              className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              placeholder="Email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="relative flex items-center mt-8">
+            <input
+              type="text"
+              className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div className="relative flex items-center mt-4">
+            <input
               type="password"
-              className="form-control"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div className="mb-3">
-            <label className="form-label">first</label>
-            <input
-              name="first"
-              type="text"
-              className="form-control"
-              onChange={(e) => {
-                setFirst(e.target.value);
-              }}
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">last</label>
-            <input
-              name="last"
-              type="text"
-              className="form-control"
-              onChange={(e) => {
-                setLast(e.target.value);
-              }}
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">email</label>
-            <input
-              name="email"
-              type="text"
-              className="form-control"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-          </div>
-          <div>
-            <input className="btn btn-primary" type="submit" value="Register" />
+          <div className="mt-6">
+            <button
+              type="submit"
+              className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+            >
+              Sign Up
+            </button>
           </div>
         </form>
       </div>
-    </div>
+    </section>
   );
 };
 

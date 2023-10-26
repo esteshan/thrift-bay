@@ -1,16 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCreateCategoryMutation } from "../../store/categoryApi";
 import { useNavigate } from "react-router-dom";
 
 function CategoryForm() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [created_at, setCreated_at] = useState(""); // consider removing this if not needed
+  const [created_at, setCreated_at] = useState(""); 
   const [error, setError] = useState("");
   const [createCategory, result] = useCreateCategoryMutation();
 
+  useEffect(() => {
+    if (result.isSuccess) {
+      navigate("/categories");
+    } else if (result.isError) {
+      setError(result.error);
+    }
+  }, [result, navigate]);
+
   async function handleSubmit(e) {
     e.preventDefault();
+    setError("");
 
     // Basic validation
     if (!name) {
@@ -20,13 +29,6 @@ function CategoryForm() {
 
     // Trigger the mutation
     createCategory({ name, created_at });
-  }
-
-  // Navigate on success
-  if (result.isSuccess) {
-    navigate("/categories");
-  } else if (result.isError) {
-    setError(result.error);
   }
 
   return (
