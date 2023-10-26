@@ -98,7 +98,7 @@ function UserProfile() {
       <div className="flex flex-row items-center justify-start mt-4 ml-20 mr-auto">
         <button>
           <Link to={`/users/${userData?.username}/reviews`} className="text-xl text-blue-500 hover:underline">
-            View Reviews
+            View All Reviews
           </Link>
         </button>
         <button>

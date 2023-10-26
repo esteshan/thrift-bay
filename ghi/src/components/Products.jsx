@@ -47,7 +47,8 @@ function Products() {
   const filteredData = data
     .filter((product) => (selectedSize === "All Sizes" ? true : product.size === selectedSize))
     .filter((product) => (selectedColor === "All Colors" ? true : product.color === selectedColor))
-    .filter((product) => (selectedCategory === "All Categories" ? true : product.category.name === selectedCategory));
+    .filter((product) => (selectedCategory === "All Categories" ? true : product.category.name === selectedCategory))
+    .filter((product) => !product.sold);
 
   return (
     <div className="bg-white">
