@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Navbar,
-  MobileNav,
   Typography,
   Button,
   Menu,
@@ -9,14 +8,12 @@ import {
   MenuList,
   MenuItem,
   Avatar,
-  IconButton,
 } from "@material-tailwind/react";
 import {
   UserCircleIcon,
   ChevronDownIcon,
   PlusCircleIcon,
   PowerIcon,
-  Bars2Icon,
 } from "@heroicons/react/24/solid";
 import { useGetTokenQuery, useLogoutMutation } from "../store/authApi";
 import boat from "../assets/boat.png";
@@ -130,18 +127,8 @@ function ProfileMenu() {
 
 
 export function ComplexNavbar() {
-  const [isNavOpen, setIsNavOpen] = React.useState(false);
   const { data } = useGetTokenQuery();
 
-
-  const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
-
-  React.useEffect(() => {
-    window.addEventListener(
-      "resize",
-      () => window.innerWidth >= 960 && setIsNavOpen(false)
-    );
-  }, []);
 
 return (
   <Navbar className="mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6">
@@ -157,15 +144,6 @@ return (
         <SearchBar />
       <div className="hidden lg:block">
       </div>
-      <IconButton
-        size="sm"
-        color="blue-gray"
-        variant="text"
-        onClick={toggleIsNavOpen}
-        className="ml-auto mr-2 lg:hidden"
-      >
-        <Bars2Icon className="h-6 w-6" />
-      </IconButton>
       {data === null ? (
         <>
           <NavLink to="/signup">
@@ -183,9 +161,6 @@ return (
         <ProfileMenu />
       )}
     </div>
-    <MobileNav open={isNavOpen} className="overflow-scroll">
-
-    </MobileNav>
   </Navbar>
 );
 
