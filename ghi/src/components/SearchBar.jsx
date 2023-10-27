@@ -12,8 +12,8 @@ const SearchBar = () => {
     <Input
       type="text"
       color="gray"
-      size="regular"
-      outline={false}
+      size="lg"
+      outline={undefined}
       placeholder="Search"
       value={searchTerm}
       onChange={handleChange}
