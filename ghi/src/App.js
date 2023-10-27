@@ -2,7 +2,7 @@ import { AuthProvider } from '@galvanize-inc/jwtdown-for-react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SignupForm from './pages/Signup/SignupForm';
 import LoginForm from './pages/Login/LoginForm';
-import Nav from './components/Navbar';
+import ComplexNavbar from "./components/Navbar";
 import ProductDetail from "./components/ProductDetail";
 import UserProfile from './components/UserProfile';
 import Products from "./components/Products";
@@ -21,7 +21,7 @@ function App() {
   return (
     <div>
       <BrowserRouter basename={basename}>
-        <Nav />
+        <ComplexNavbar />
         <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
           <Routes>
             <Route path="" element={<Products />}></Route>
@@ -30,12 +30,21 @@ function App() {
             <Route path="/signup" element={<SignupForm />}></Route>
             <Route path="/login" element={<LoginForm />}></Route>
             <Route path="/users/:username" element={<UserProfile />}></Route>
-            <Route path="/products/:product_id" element={<ProductDetail />}></Route>
+            <Route
+              path="/products/:product_id"
+              element={<ProductDetail />}
+            ></Route>
             <Route path="/products/new" element={<NewProduct />}></Route>
-            <Route path="/users/:username/reviews/new" element={<ReviewsForm />}></Route>
-            <Route path="/users/:username/reviews" element={<Reviews />}></Route>
-            <Route path="/checkout/:product_id" element={<Checkout />} ></Route>
-            <Route path="/complete" element={<ThankYouPage />} ></Route>
+            <Route
+              path="/users/:username/reviews/new"
+              element={<ReviewsForm />}
+            ></Route>
+            <Route
+              path="/users/:username/reviews"
+              element={<Reviews />}
+            ></Route>
+            <Route path="/checkout/:product_id" element={<Checkout />}></Route>
+            <Route path="/complete" element={<ThankYouPage />}></Route>
           </Routes>
         </AuthProvider>
       </BrowserRouter>
