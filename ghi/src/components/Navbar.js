@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useGetTokenQuery, useLogoutMutation } from "../store/authApi";
 import boat from "../assets/boat.png";
-import { toast } from "react-toastify";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
@@ -21,7 +20,6 @@ const Nav = () => {
 
   const handleLogout = () => {
     logoutUser();
-    toast("Logout successful!");
     navigate("/");
   };
 
@@ -69,7 +67,7 @@ const Nav = () => {
           ) : (
             <Menu as="li" className="relative">
               <Menu.Button className="text-white cursor-pointer">
-                {data.user.username}
+                {data.user.first_name}
                 <ChevronDownIcon className="h-4 w-4 ml-2" aria-hidden="true" />
               </Menu.Button>
               <Transition as={Fragment}>
@@ -87,6 +85,21 @@ const Nav = () => {
                         onClick={handleLogout}
                       >
                         Log out
+                      </NavLink>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <NavLink
+                        to={`/products/new`}
+                        className={classNames(
+                          active
+                            ? "bg-gray-100 text-gray-900"
+                            : "text-gray-700",
+                          "block px-4 py-2"
+                        )}
+                      >
+                        create product
                       </NavLink>
                     )}
                   </Menu.Item>
