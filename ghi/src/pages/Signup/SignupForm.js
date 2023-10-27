@@ -1,8 +1,7 @@
 import { useState } from "react";
+import { useCreateUserMutation } from "../../store/authApi";
 import { useNavigate } from "react-router-dom";
-import useToken from "@galvanize-inc/jwtdown-for-react";
 import boat from "../../assets/boat.png";
-
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -11,9 +10,9 @@ const SignupForm = () => {
   const [first, setFirst] = useState("");
   const [last, setLast] = useState("");
   const [email, setEmail] = useState("");
-  const { register } = useToken();
+  const [createUser] = useCreateUserMutation();
 
-  const handleRegistration = (e) => {
+  const handleRegistration = async (e) => {
     e.preventDefault();
     const accountData = {
       username: username,
@@ -22,9 +21,14 @@ const SignupForm = () => {
       last_name: last,
       email: email,
     };
-    register(accountData, `${process.env.REACT_APP_API_HOST}/users`);
-    e.target.reset();
-    navigate("/");
+
+    try {
+      await createUser(accountData).unwrap();
+      e.target.reset();
+      navigate("/");
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
   };
 
   return (
