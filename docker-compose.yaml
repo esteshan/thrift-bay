@@ -1,67 +1,59 @@
-# Define Docker volumes to persist data
+
 volumes:
-  # Define a named volume for the PostgreSQL database
   thriftbay-data: {}
 
-# Define services to run in Docker containers
 services:
-  # FastAPI service configuration
   fastapi:
-    # Environment variables for FastAPI application
     environment:
-      CORS_HOST: ${CORS_HOST} # Allowed origin for CORS
+      CORS_HOST: ${CORS_HOST}
       SIGNING_KEY: ${SIGNING_KEY}
-      DATABASE_URL: ${DATABASE_URL} # Database connection string
-      WAIT_HOSTS: db:5432 # Wait for the database to be up
-      PORT: 8000 # Port FastAPI will run on
+      DATABASE_URL: ${DATABASE_URL}
+      WAIT_HOSTS: db:5432
+      PORT: 8000
 
-    # Build context for Docker build
+
     build:
-      context: api # Directory containing the Dockerfile
-      dockerfile: Dockerfile.dev # Name of the Dockerfile
+      context: api
+      dockerfile: Dockerfile.dev
 
-    # Port mapping between host and container
     ports:
-      - 8000:8000 # Map host port 8000 to container port 8000
+      - 8000:8000
 
-    # Volumes to persist data and sync code changes
+
     volumes:
-      - ./api:/app # Mount the ./api directory to /app in the container
+      - ./api:/app
 
-  # Node.js service configuration
+
   ghi:
-    image: node:lts-bullseye # Base image for the container
-    command: /bin/bash run.sh # Command to run upon container start
-    working_dir: /app # Working directory in the container
+    image: node:lts-bullseye
+    command: /bin/bash run.sh
+    working_dir: /app
 
-    # Volumes for code sync
     volumes:
-      - ./ghi:/app # Mount the ./ghi directory to /app in the container
+      - ./ghi:/app
 
-    # Port mapping
+
     ports:
-      - "3000:3000" # Map host port 3000 to container port 3000
+      - "3000:3000"
 
-    # Environment variables
+
     environment:
-      HOST_OS: ${OS} # Operating System
-      NODE_ENV: development # Node.js environment
-      HOST: "0.0.0.0" # The host address
-      PUBLIC_URL: ${PUBLIC_URL} # Public URL for the app
-      REACT_APP_API_HOST: ${REACT_APP_API_HOST} # API host URL
+      HOST_OS: ${OS}
+      NODE_ENV: development
+      HOST: "0.0.0.0"
+      PUBLIC_URL: ${PUBLIC_URL}
+      REACT_APP_API_HOST: ${REACT_APP_API_HOST}
 
-  # PostgreSQL database service configuration
+
   db:
-    image: postgres:14.5-bullseye # Base image for PostgreSQL container
+    image: postgres:14.5-bullseye
     environment:
-      POSTGRES_PASSWORD: admin # PostgreSQL password
-      POSTGRES_USER: admin # PostgreSQL user
-      POSTGRES_DB: thriftbay # Database name
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: thriftbay
 
-    # Port mapping
+
     ports:
-      - "15432:5432" # Map host port 15432 to container port 5432
-
-    # Volumes to persist database data
+      - "15432:5432"
     volumes:
-      - thriftbay-data:/var/lib/postgresql/data # Mount named volume to database data directory
+      - thriftbay-data:/var/lib/postgresql/data
