@@ -64,9 +64,9 @@ function UserProfile() {
   }
 
   return (
-    <div className="relative flex flex-col items-center justify-start">
+    <div className="flex flex-col items-center justify-center">
       <div style={{ marginLeft: "0px" }}>
-        <div className="bg-blue-500 rounded-lg shadow-lg p-4 text-center text-white mt-12" style={{ backgroundColor: '#114B5F' }}>
+        <div className="bg-blue-500 rounded-lg shadow-lg p-4 text-center mt-12" style={{ backgroundColor: '#9BD1E5' }}>
           <h1 className="text-2xl font-bold mb-4">{userData?.username}'s Profile</h1>
           <table className="table-auto">
             <thead>
@@ -117,10 +117,10 @@ function UserProfile() {
           {userReviews.slice(0, 3).map((review) => (
             <div
               key={review.review_id}
-              className="rounded-lg shadow-xl p-8 text-center mr-8"
+              className="rounded-lg shadow-xl p-8 text-center mr-8" style={{ backgroundColor: '#9BD1E5' }}
             >
               <p className="text-xl font-bold">
-                {review.rating}
+                Rating: {review.rating}
               </p>
               <p>
                 {review.comment}
@@ -185,24 +185,23 @@ function UserProfile() {
         </div>
       </div>
 
-      <div className="flex flex-row items-center justify-start mt-8 ml-20 mr-auto">
+      <div className="flex flex-row items-center justify-center mt-12 mb-12">
         <div className="bg-green-300 rounded-lg shadow-lg p-4 text-center" style={{ backgroundColor: '#9BD1E5' }}>
           <h1 className="text-2xl font-bold">Products Listed</h1>
         </div>
       </div>
 
       {filteredProducts.length === 0 ? (
-        <div className="flex flex-row items-center justify-center mt-8 ml-20 mr-auto">
-          <p
-            className="text-2xl font-bold">No products listed by {userData?.username}.
-          </p>
+        <div className="flex flex-row items-center justify-center mt-12 mb-12">
+          <p className="text-2xl font-bold">No products listed by {userData?.username}.</p>
         </div>
       ) : (
-        <div className="flex flex-row items-center justify-start mt-8 ml-20 mr-auto">
+        <div className="flex flex-row flex-wrap items-center justify-center ">
           {filteredProducts.map((product) => (
             <div
               key={product.product_id}
-              className="rounded-lg shadow-xl p-8 text-center mr-8"
+              className="rounded-lg shadow-xl p-8 text-center mr-8 mb-8"
+              style={{ flex: "0 0 calc(20% - 1rem)" }}
             >
               {product.sold && (
                 <div className="sold-badge" style={{ marginTop: "-15px", fontWeight: "bold" }}>SOLD</div>

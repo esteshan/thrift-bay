@@ -222,3 +222,49 @@ Create and finish a working unit test for users.
 - Learned how to create a unit test
 
 ---
+
+
+### Journal Entry - 10/23/2023 - 10/27/2023
+
+---
+
+#### Task:
+
+- Fully finish profile page
+- Fully finish reviews page
+- Fully finish home page
+
+#### Objective:
+
+- Fully finish the profile page, which includes a list of all the user's information, along with all the products they have listed. Along with this, the profile includes a reivews section that shows all the reviews the person has and allow users to add a review for that user. The profile page should also have filters to filter which kinds of products the user has listed, along with rendering something when they have no products listed. There is also a sold filter that shows which items the user has sold.
+- The reviews page should allow a user to create a review for another user. This also should allow a user to see what reviews have been left for another user.
+- The home page should include filters that allows a user to filter out what kind of items they want. This should include categories (such as shirts or pants), along with sizes and any colors they may want to add.
+---
+
+#### Steps Taken:
+
+- Created the profile page using the back-end endpoints to gather data of the user along with all the products data. This data was used to list out the user data onto the profile page along with and products that are tied to the user so that it can list any products that they are currently attempting to sell, or any products that they have sold.
+- Created the reviews page that allows a rendering of the list views that show what reviews have been left for a certain user. It also allows a user to create a review for another user.
+- Created filters on the home product page that allows a user to filter through any type of product they may be searching for. This is done through the filters of sizes, colors and categories.
+
+---
+
+#### Key Code Snippets:
+- Key code snippets are inside of `../ghi/src/components/Products.jsx`, `../ghi/src/components/form/reviewsForm.js`, `../ghi/src/components/UserProfile.jsx`, `../ghi/src/store/userProfileApi.js`, `../ghi/src/store/reviewsApi.js`, `../ghi/src/store/productsApi.js`, `../ghi/src/App.js`, and `../ghi/src/store/store.js`
+---
+
+#### Challenges:
+- Ensuring that each page renders correctly and that each function is added and working correctly
+
+---
+
+#### Solutions:
+
+
+
+---
+
+#### Lessons Learned:
+- Learned a lot about tailwind and styling as I had to style my pages and get everything in the right place that I wanted it. Learned how to filter certain pieces of data so that I can have the frontend render only certain kinds of data that I wanted it to. This would be things like only items that are sold, or filters of categories, colors, or sizes. Learned how to work with redux better and render pages and my data correctly.
+
+---
