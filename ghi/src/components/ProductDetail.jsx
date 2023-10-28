@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useGetProductDetailQuery } from "../store/detailApi";
 
 
@@ -7,7 +7,6 @@ import { useGetProductDetailQuery } from "../store/detailApi";
 function ProductDetail() {
     const { product_id } = useParams();
     const { data, isLoading } = useGetProductDetailQuery(product_id);
-    const navigate = useNavigate();
 
     if (isLoading) {
         return <div>No Data Available</div>;
@@ -16,7 +15,7 @@ function ProductDetail() {
     function handleCheckout() {
     if (data) {
         const product_id = data.product_id;
-        navigate(`/checkout/${product_id}`);
+        window.location.href = `/checkout/${product_id}`;
     }
 }
 
