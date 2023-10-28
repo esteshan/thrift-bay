@@ -33,12 +33,13 @@ const useProfileMenuItems = () => {
   };
 
   const handleProducts = () => {
-    navigate("/products/new");
+    window.location.href = "/products/new";
   };
+
 
   return [
     {
-      label: "My Profile",
+      label: `${data.user.username}`,
       icon: UserCircleIcon,
       onClick: handleProfile,
     },
