@@ -33,7 +33,7 @@ const useProfileMenuItems = () => {
   };
 
   const handleProducts = () => {
-    window.location.href = "/products/new";
+    window.location.href = `/products/new`;
   };
 
   return [

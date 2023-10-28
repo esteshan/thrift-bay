@@ -35,11 +35,12 @@ function NewProduct() {
             } catch (error) {
                 console.error("Listing Product Failed:", error);
             }
+        } else {
+            alert("You must be logged in to create a new product.");
         }
     };
 
     const categories = categoriesData || [];
-
 
     return (
     <div className="leading-loose">

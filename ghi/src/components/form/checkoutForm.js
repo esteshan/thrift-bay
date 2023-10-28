@@ -20,38 +20,40 @@ function Checkout() {
 
     const updateSoldStatus = async () => {
         try {
-        await fetch(`${process.env.REACT_APP_API_HOST}/products/${product_id}`, {
-            method: "PUT",
-            headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${jwtToken}`,
-            },
-            body: JSON.stringify({ sold: true }),
-        });
+            await fetch(`${process.env.REACT_APP_API_HOST}/products/${product_id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+                body: JSON.stringify({ sold: true }),
+            });
         } catch (error) {
-        console.error("Error updating sold status:", error);
+            console.error("Error updating sold status:", error);
         }
     };
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         if (user_id) {
-        const checkoutData = {
-            address,
-            city,
-            state,
-            zip_code,
-            product_id,
-            user_id,
-            created_at,
-        };
-        try {
-            await createCheckout(checkoutData).unwrap();
-            updateSoldStatus(jwtToken);
-            navigate(`/complete`);
-        } catch (error) {
-            console.error("Checkout Failed:", error);
-        }
+            const checkoutData = {
+                address,
+                city,
+                state,
+                zip_code,
+                product_id,
+                user_id,
+                created_at,
+            };
+            try {
+                await createCheckout(checkoutData).unwrap();
+                updateSoldStatus(jwtToken);
+                navigate(`/complete`);
+            } catch (error) {
+                console.error("Checkout Failed:", error);
+            }
+        } else {
+            alert("You must be logged in to complete the checkout.");
         }
     };
 
