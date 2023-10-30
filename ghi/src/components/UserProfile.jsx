@@ -4,6 +4,8 @@ import { useGetUsersQuery } from "../store/userProfileApi";
 import { useGetProductsQuery } from "../store/productsApi";
 import { useGetReviewQuery } from "../store/reviewsApi";
 import { Link } from 'react-router-dom';
+import ButtonColors from "./Buttons/ButtonColors";
+
 
 function UserProfile() {
   const { username } = useParams();
@@ -19,6 +21,10 @@ function UserProfile() {
   const [sizeOptions, setSizeOptions] = useState([]);
   const [colorOptions, setColorOptions] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
+
+  const handleDeleteProduct = (productId) => {
+    console.log(`deleting product with ID: ${productId}`);
+    };
 
   useEffect(() => {
     if (productData) {
@@ -66,8 +72,13 @@ function UserProfile() {
   return (
     <div className="flex flex-col items-center justify-center">
       <div style={{ marginLeft: "0px" }}>
-        <div className="bg-blue-500 rounded-lg shadow-lg p-4 text-center mt-12" style={{ backgroundColor: '#9BD1E5' }}>
-          <h1 className="text-2xl font-bold mb-4">{userData?.username}'s Profile</h1>
+        <div
+          className="bg-blue-500 rounded-lg shadow-lg p-4 text-center mt-12"
+          style={{ backgroundColor: "#9BD1E5" }}
+        >
+          <h1 className="text-2xl font-bold mb-4">
+            {userData?.username}'s Profile
+          </h1>
           <table className="table-auto">
             <thead>
               <tr>
@@ -90,19 +101,30 @@ function UserProfile() {
       </div>
 
       <div className="flex flex-row items-center justify-start mt-8 ml-20 mr-auto">
-        <div className="bg-green-300 rounded-lg shadow-lg p-4 text-center" style={{ backgroundColor: '#9BD1E5' }}>
-          <h1 className="text-2xl font-bold">List of {userData?.username}'s Reviews</h1>
+        <div
+          className="bg-green-300 rounded-lg shadow-lg p-4 text-center"
+          style={{ backgroundColor: "#9BD1E5" }}
+        >
+          <h1 className="text-2xl font-bold">
+            List of {userData?.username}'s Reviews
+          </h1>
         </div>
       </div>
 
       <div className="flex flex-row items-center justify-start mt-4 ml-20 mr-auto">
         <button>
-          <Link to={`/users/${userData?.username}/reviews`} className="text-xl text-blue-500 hover:underline">
+          <Link
+            to={`/users/${userData?.username}/reviews`}
+            className="text-xl text-blue-500 hover:underline"
+          >
             View All Reviews
           </Link>
         </button>
         <button>
-          <Link to={`/users/${userData?.username}/reviews/new`} className="text-xl text-blue-500 hover:underline ml-8">
+          <Link
+            to={`/users/${userData?.username}/reviews/new`}
+            className="text-xl text-blue-500 hover:underline ml-8"
+          >
             Add New Review for {userData?.username}
           </Link>
         </button>
@@ -110,21 +132,20 @@ function UserProfile() {
 
       {userReviews.length === 0 ? (
         <div className="flex flex-row items-center justify-start mt-4 ml-20 mr-auto">
-          <p className="text-xl">{userData?.username} currently has no reviews</p>
+          <p className="text-xl">
+            {userData?.username} currently has no reviews
+          </p>
         </div>
       ) : (
         <div className="flex flex-row items-center justify-start mt-4 ml-20 mr-auto">
           {userReviews.slice(0, 3).map((review) => (
             <div
               key={review.review_id}
-              className="rounded-lg shadow-xl p-8 text-center mr-8" style={{ backgroundColor: '#9BD1E5' }}
+              className="rounded-lg shadow-xl p-8 text-center mr-8"
+              style={{ backgroundColor: "#9BD1E5" }}
             >
-              <p className="text-xl font-bold">
-                Rating: {review.rating}
-              </p>
-              <p>
-                {review.comment}
-              </p>
+              <p className="text-xl font-bold">Rating: {review.rating}</p>
+              <p>{review.comment}</p>
             </div>
           ))}
         </div>
@@ -186,14 +207,19 @@ function UserProfile() {
       </div>
 
       <div className="flex flex-row items-center justify-center mt-12 mb-12">
-        <div className="bg-green-300 rounded-lg shadow-lg p-4 text-center" style={{ backgroundColor: '#9BD1E5' }}>
+        <div
+          className="bg-green-300 rounded-lg shadow-lg p-4 text-center"
+          style={{ backgroundColor: "#9BD1E5" }}
+        >
           <h1 className="text-2xl font-bold">Products Listed</h1>
         </div>
       </div>
 
       {filteredProducts.length === 0 ? (
         <div className="flex flex-row items-center justify-center mt-12 mb-12">
-          <p className="text-2xl font-bold">No products listed by {userData?.username}.</p>
+          <p className="text-2xl font-bold">
+            No products listed by {userData?.username}.
+          </p>
         </div>
       ) : (
         <div className="flex flex-row flex-wrap items-center justify-center ">
@@ -204,13 +230,25 @@ function UserProfile() {
               style={{ flex: "0 0 calc(20% - 1rem)" }}
             >
               {product.sold && (
-                <div className="sold-badge" style={{ marginTop: "-15px", fontWeight: "bold" }}>SOLD</div>
+                <div
+                  className="sold-badge"
+                  style={{ marginTop: "-15px", fontWeight: "bold" }}
+                >
+                  SOLD
+                </div>
               )}
               <p
                 className="mb-4 text-xl"
-                style={{ textDecoration: product.sold ? 'line-through' : 'none', marginTop: "-10px", fontWeight: "bold" }}
+                style={{
+                  textDecoration: product.sold ? "line-through" : "none",
+                  marginTop: "-10px",
+                  fontWeight: "bold",
+                }}
               >
-                <Link to={`/products/${product.product_id}`} className="text-blue-500 hover:underline" >
+                <Link
+                  to={`/products/${product.product_id}`}
+                  className="text-blue-500 hover:underline"
+                >
                   {product.name}
                 </Link>
               </p>
@@ -220,6 +258,14 @@ function UserProfile() {
                   alt={product.name}
                   style={{ maxWidth: "250px" }}
                 />
+                <div className="flex justify-center mt-4">
+                  <ButtonColors
+                    color="red"
+                    onClick={() => console.log("Delete clicked")}
+                  >
+                    Delete
+                  </ButtonColors>{" "}
+                </div>
               </div>
             </div>
           ))}
