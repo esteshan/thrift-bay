@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetProductDetailQuery } from "../store/detailApi";
 import { useGetTokenQuery } from "../store/authApi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function ProductDetail() {
     const { product_id } = useParams();
@@ -26,7 +26,7 @@ function ProductDetail() {
 
     function handleDelete() {
     if (data) {
-      fetch(`/products/${product_id}`, {
+      fetch(`${process.env.REACT_APP_API_HOST}/products/${product_id}`, {
         method: "DELETE",
       })
         .then((response) => {
@@ -68,8 +68,12 @@ function ProductDetail() {
         </div>
         <div className="border-t border-gray-200 pt-4">
             <dt className="font-medium text-gray-900">Seller</dt>
-            <dd className="mt-2 text-lg text-gray-500">{data?.user_id.username}</dd>
-        </div>
+            <dd className="mt-2 text-lg text-gray-500">
+            <Link className="text-blue-500 hover:underline hover:text-blue-700 active:text-blue-800" to={`/users/${data?.user_id.username}`}>
+                {data?.user_id.username}
+            </Link>
+    </dd>
+</div>
         <div className="bg-white">
         {isCurrentUserProductCreator && (
             <button onClick={handleDelete} className="px-20 bg-red-600 hover:bg-red-500 text-white font-semibold py-3 mt-4">

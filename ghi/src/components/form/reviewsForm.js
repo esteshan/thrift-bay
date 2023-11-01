@@ -44,23 +44,27 @@ function ReviewForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (userError) {
-      setError("Failed to retrieve user data.");
-    } else {
+    if (!userError) {
       handleCreateReview();
+    } else {
+      setError("Failed to retrieve user data or user is not logged in.");
     }
-  };
+  }
 
   const ratingOptions = [1, 2, 3, 4, 5];
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="rating">Rating:</label>
+    <form onSubmit={handleSubmit} className="max-w-xl m-4 p-10 bg-white rounded shadow-xl">
+      <p className="text-gray-800 font-medium">Review Information</p>
+      <div className="mt-2">
+        <label htmlFor="rating" className="block text-sm text-gray-600">
+          Rating:
+        </label>
         <select
           id="rating"
           value={rating}
           onChange={(e) => setRating(parseInt(e.target.value, 10))}
+          className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded"
         >
           {ratingOptions.map((option) => (
             <option key={option} value={option}>
@@ -69,24 +73,39 @@ function ReviewForm() {
           ))}
         </select>
       </div>
-      <div>
-        <label htmlFor="comment">Comments:</label>
+      <div className="mt-2">
+        <label htmlFor="comment" className="block text-sm text-gray-600">
+          Comments:
+        </label>
         <textarea
           id="comment"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
+          className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded"
         />
       </div>
-      <div>
-        <label htmlFor="created_at">Created At:</label>
-        <input type="date" id="created_at" value={created_at} readOnly />
+      <div className="mt-2">
+        <label htmlFor="created_at" className="block text-sm text-gray-600">
+          Created At:
+        </label>
+        <input
+          type="date"
+          id="created_at"
+          value={created_at}
+          readOnly
+          className="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded"
+        />
       </div>
-      <button type="submit" disabled={result.isLoading}>
+      <button
+        type="submit"
+        disabled={result.isLoading}
+        className="mt-4 px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded"
+      >
         Create Review
       </button>
 
-      {result.isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
+      {result.isLoading && <p className="mt-2 text-gray-800">Loading...</p>}
+      {error && <p className="mt-2 text-red-500">Error: {error}</p>}
     </form>
   );
 }
