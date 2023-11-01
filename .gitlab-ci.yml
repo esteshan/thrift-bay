@@ -13,7 +13,6 @@ lint-test-job:
     - pip install flake8
     - flake8 api
 
-
 api-unit-tests-job:
   image: python:3-bullseye
   stage: test
@@ -26,7 +25,8 @@ api-unit-tests-job:
   variables:
     DATABASE_URL: ${DATABASE_URL}
     SIGNING_KEY: ${SIGNING_KEY}
-
+    STRIPE_PRIVATE_KEY: ${STRIPE_PRIVATE_KEY}
+    PUBLIC_URL: ${PUBLIC_URL}
 
 build-api-image:
   stage: build
@@ -40,8 +40,6 @@ build-api-image:
     - docker push $GITLAB_IMAGE:latest
   only:
     - main
-
-
 
 build-front-end-job:
   stage: build

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useCreateCheckoutMutation } from "../../store/checkoutApi";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useGetTokenQuery } from "../../store/authApi";
+import  submitToCreateCheckoutSession  from "../stripe/PaymentUtils";
 
 function Checkout() {
     const { product_id } = useParams();
@@ -9,7 +10,6 @@ function Checkout() {
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [zip_code, setZipcode] = useState("");
-    const navigate = useNavigate();
     const [createCheckout] = useCreateCheckoutMutation();
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0];
@@ -48,7 +48,7 @@ function Checkout() {
             try {
                 await createCheckout(checkoutData).unwrap();
                 updateSoldStatus(jwtToken);
-                navigate(`/complete`);
+                submitToCreateCheckoutSession();
             } catch (error) {
                 console.error("Checkout Failed:", error);
             }

@@ -58,7 +58,7 @@ function ProductDetail() {
         />
     </div>
     <button onClick={handleCheckout} className="px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3">
-        Checkout
+        Buy now
     </button>
     </div>
 </div>

@@ -13,7 +13,8 @@ import Reviews from './components/Reviews';
 import NewProduct from './components/form/createProductForm';
 import Checkout from './components/form/checkoutForm';
 import ThankYouPage from './components/checkoutComplete';
-import Fileinput from './components/form/Fileinput';
+import Payment from './components/stripe/Payment';
+
 
 function App() {
   const domain = /https:\/\/[^/]+/;
@@ -26,7 +27,7 @@ function App() {
         <AuthProvider baseUrl={process.env.REACT_APP_API_HOST}>
           <Routes>
             <Route path="" element={<Products />}></Route>
-            <Route path="/test"element={<Fileinput />}></Route>
+            <Route path="test" element={<Payment />}></Route>
             <Route path="/categories" element={<Categories />}></Route>
             <Route path="/categories/new" element={<CategoryForm />}></Route>
             <Route path="/signup" element={<SignupForm />}></Route>
