@@ -80,11 +80,8 @@ class ReviewRepository:
         try:
             review_id = uuid.uuid4()
             print(f"Generated review_id: {review_id}")
-            # connect the database
             with pool.connection() as conn:
-                # get a cursor (something to run SQL with)
                 with conn.cursor() as db:
-                    # Run our INSERT statement
                     result = db.execute(
                         """
                         INSERT INTO reviews
@@ -182,9 +179,7 @@ class ReviewRepository:
 
     def delete_review(self, review_id: UUID) -> bool:
         try:
-            # connect the database
             with pool.connection() as conn:
-                # get a cursor (something to run SQL with)
                 with conn.cursor() as db:
                     db.execute(
                         """

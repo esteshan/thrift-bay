@@ -46,7 +46,6 @@ class MockProductRepository(ProductRepository):
 
 
 def test_create_product():
-    # Arrange
     app.dependency_overrides[ProductRepository] = MockProductRepository
     app.dependency_overrides[
         authenticator.get_current_account_data
@@ -66,18 +65,15 @@ def test_create_product():
         "created_at": test_date.isoformat(),
     }
 
-    # Act
     response = client.post("/products", json=json)
 
-    # Clean up
     app.dependency_overrides = {}
 
-    # Assert
     assert response.status_code == 200
     response_json = response.json()
     assert isinstance(
         uuid.UUID(response_json["product_id"]), uuid.UUID
-    )  # Check it's a valid UUID
+    )
     assert response_json["name"] == "string"
     assert response_json["picture_url"] == "test_picture"
     assert response_json["color"] == "string"

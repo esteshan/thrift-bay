@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetProductDetailQuery } from "../store/detailApi";
 import { useGetTokenQuery } from "../store/authApi";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function ProductDetail() {
     const { product_id } = useParams();
     const { data, isLoading } = useGetProductDetailQuery(product_id);
     const { data: tokenData} = useGetTokenQuery();
-    const navigate = useNavigate();
     const [error, setError] = useState(null);
     const user_id = tokenData?.user.user_id;
+    const jwtToken = tokenData?.access_token;
 
     if (isLoading) {
         return <div>No Data Available</div>;
@@ -28,10 +28,14 @@ function ProductDetail() {
     if (data) {
       fetch(`${process.env.REACT_APP_API_HOST}/products/${product_id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwtToken}`,
+          },
       })
         .then((response) => {
           if (response.status === 200) {
-            navigate("/");
+            window.location.href = "/";
           } else {
             setError("Failed to Delete Product");
           }

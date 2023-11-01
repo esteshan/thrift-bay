@@ -30,7 +30,6 @@ class MockCategoryRepository(CategoryRepository):
 
 
 def test_create_category():
-    # Arrange
     app.dependency_overrides[CategoryRepository] = MockCategoryRepository
     app.dependency_overrides[
         authenticator.get_current_account_data] = fake_user
@@ -38,17 +37,14 @@ def test_create_category():
     test_date = date(2023, 10, 31)
     json = {"name": "string", "created_at": test_date.isoformat()}
 
-    # Act
     response = client.post("/categories", json=json)
 
-    # Clean up
     app.dependency_overrides = {}
 
-    # Assert
     assert response.status_code == 200
     response_json = response.json()
     assert isinstance(
         uuid.UUID(response_json["category_id"]), uuid.UUID
-    )  # Check it's a valid UUID
+    )
     assert response_json["name"] == "string"
     assert response_json["created_at"] == test_date.isoformat()

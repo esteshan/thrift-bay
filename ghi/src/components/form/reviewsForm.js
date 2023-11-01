@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useCreateReviewMutation } from "../../store/reviewsApi";
-import { useNavigate } from "react-router-dom";
 import { useGetUsersQuery } from "../../store/userProfileApi";
 
 function ReviewForm() {
-  const navigate = useNavigate();
   const [rating, setRating] = useState(1);
   const [comment, setComment] = useState("");
   const [created_at, setCreated_at] = useState("");
@@ -22,11 +20,11 @@ function ReviewForm() {
   useEffect(() => {
     if (result.isSuccess) {
       refetch();
-      navigate(`/users/${user.username}`);
+      window.location.href = `${process.env.PUBLIC_URL}/users/${user.username}`;
     } else if (result.isError) {
       setError("Failed to create the review.");
     }
-  }, [result, navigate, user, refetch]);
+  }, [result, user, refetch]);
 
   const handleCreateReview = async () => {
     try {

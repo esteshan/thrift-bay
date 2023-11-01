@@ -4,7 +4,7 @@ export const checkoutApi = createApi({
     reducerPath: "checkout",
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.REACT_APP_API_HOST,
-        credentials: "include", //Include credentials like cookies
+        credentials: "include",
     }),
     endpoints: (builder) => ({
         getCheckout: builder.query({

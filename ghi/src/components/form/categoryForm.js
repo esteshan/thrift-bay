@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useCreateCategoryMutation } from "../../store/categoryApi";
 import { useNavigate } from "react-router-dom";
-// import Categories from "../Categories";
 
 function CategoryForm() {
   const navigate = useNavigate();
@@ -24,13 +23,11 @@ function CategoryForm() {
     setError("");
 
 
-    // Basic validation
     if (!name) {
       setError("Name cannot be empty");
       return;
     }
 
-    // Trigger the mutation
     createCategory({ name, created_at });
   }
 

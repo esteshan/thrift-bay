@@ -4,8 +4,6 @@ from psycopg_pool import ConnectionPool
 from pydantic import BaseModel
 import uuid
 
-
-# Create a connection pool for PostgreSQL
 pool = ConnectionPool(conninfo=os.environ["DATABASE_URL"])
 
 

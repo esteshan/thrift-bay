@@ -6,7 +6,6 @@ import { useGetCategoryQuery } from "../../store/categoryApi";
 import Fileinput from "./Fileinput";
 
 
-
 function NewProduct() {
     const navigate = useNavigate();
     const { data: tokenData } = useGetTokenQuery();
