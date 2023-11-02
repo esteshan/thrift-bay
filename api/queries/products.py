@@ -302,3 +302,56 @@ class ProductRepository:
             ),
             created_at=record[16],
         )
+
+    def search(self, query: str) -> Union[List[ProductsOut], Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        SELECT
+                            p.product_id,
+                            p.name,
+                            p.picture_url,
+                            p.color,
+                            p.size,
+                            p.description,
+                            p.item_price,
+                            p.sold,
+                            p.category,
+                            c.name AS category_name,
+                            c.created_at AS category_created_at,
+                            p.user_id,
+                            u.first_name AS user_first_name,
+                            u.last_name AS user_last_name,
+                            u.username AS user_username,
+                            u.email AS user_email,
+                            p.created_at
+                        FROM products p
+                        LEFT JOIN categories c ON p.category = c.category_id
+                        LEFT JOIN users u ON p.user_id = u.user_id
+                        WHERE p.name ILIKE %s
+                        OR p.description ILIKE %s
+                        OR c.name ILIKE %s
+                        OR u.first_name ILIKE %s
+                        OR u.last_name ILIKE %s
+                        OR u.username ILIKE %s
+                        OR u.email ILIKE %s;
+                        """,
+                        [
+                            f"%{query}%",
+                            f"%{query}%",
+                            f"%{query}%",
+                            f"%{query}%",
+                            f"%{query}%",
+                            f"%{query}%",
+                            f"%{query}%",
+                        ],
+                    )
+                    return [
+                        self.record_to_products_out(record)
+                        for record in db.fetchall()
+                    ]
+        except Exception as e:
+            print(e)
+            return Error(message="error occurred searching for products"), 404

@@ -25,7 +25,7 @@ function Products() {
   }, [data]);
 
   if (!data) {
-    return <div>No data available</div>;
+    return <div>Loading...</div>;
   }
 
   function handleDetail(product_id) {

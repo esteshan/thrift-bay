@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Response, Query
 from authenticator import authenticator
 from typing import List, Union
 from queries.products import (
@@ -57,3 +57,14 @@ def get_product_by_id(
     repo: ProductRepository = Depends(),
 ) -> Union[ProductsOut, Error]:
     return repo.get_product_by_id(product_id)
+
+
+@router.get("/search/", response_model=Union[List[ProductsOut], Error])
+def search_products(
+    q: str = Query("", alias="query"),
+    repo: ProductRepository = Depends()
+) -> Union[List[ProductsOut], Error]:
+    if q == "":
+        return repo.get_all()
+    else:
+        return repo.search(q)
