@@ -1,14 +1,13 @@
-import React, { useEffect, useState, useRef } from 'react';
-import styled from 'styled-components';
-import {IoClose, IoSearch} from  "react-icons/io5";
+import React, { useEffect, useState, useRef } from "react";
+import styled from "styled-components";
+import { IoClose, IoSearch } from "react-icons/io5";
 import { AnimatePresence, motion } from "framer-motion";
-import { useClickOutside} from "react-click-outside-hook"
+import { useClickOutside } from "react-click-outside-hook";
 import MoonLoader from "react-spinners/MoonLoader";
-import useDebounce from './debounceHook';
+import useDebounce from "./debounceHook";
 import axios from "axios";
 import ProductRender from "./render";
 import { Link } from "react-router-dom";
-
 
 const SearchBarContainer = styled(motion.div)`
   display: flex;
@@ -156,7 +155,7 @@ export function SearchBar(props) {
     return encodeURI(url);
   };
 
-  const searchTvShow = async () => {
+  const searchProducts = async () => {
     if (!searchQuery || searchQuery.trim() === "") return;
 
     setLoading(true);
@@ -178,7 +177,7 @@ export function SearchBar(props) {
     setLoading(false);
   };
 
-  useDebounce(searchQuery, 500, searchTvShow);
+  useDebounce(searchQuery, 500, searchProducts);
 
   return (
     <SearchBarContainer
@@ -237,7 +236,7 @@ export function SearchBar(props) {
                 <Link
                   to={`/products/${product_id}`}
                   key={product_id}
-                  onClick={collapseContainer} 
+                  onClick={collapseContainer}
                 >
                   <ProductRender thumbnailSrc={picture_url} name={name} />
                 </Link>
