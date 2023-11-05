@@ -4,6 +4,7 @@ import { useGetUsersQuery } from "../store/userProfileApi";
 import { useGetProductsQuery } from "../store/productsApi";
 import { useGetReviewQuery } from "../store/reviewsApi";
 import { Link } from 'react-router-dom';
+import ClipLoader from "react-spinners/ClipLoader";
 
 function UserProfile() {
   const { username } = useParams();
@@ -32,11 +33,17 @@ function UserProfile() {
   }, [productData]);
 
   if (isUserLoading || isProductLoading || isReviewLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="bg-gray-100 p-4">Loading...</div>
-      </div>
-    );
+        return (
+          <div className="flex justify-center items-center h-screen">
+            <ClipLoader
+              color={"#09110f"}
+              loading={true}
+              size={100}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </div>
+        );
   }
 
   const productsBelongingToUser = productData.filter(

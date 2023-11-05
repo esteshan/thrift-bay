@@ -1,17 +1,29 @@
 import { useGetProductsQuery } from "../store/productsApi";
 import { useNavigate } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function Products() {
-  const { data } = useGetProductsQuery();
+  const { data, isLoading } = useGetProductsQuery();
   const navigate = useNavigate();
 
-  if (!data) {
-    return <div>No data available</div>;
-  }
 
   function handleDetail(product_id) {
     navigate(`/products/${product_id}`);
   }
+
+      if (isLoading) {
+        return (
+          <div className="flex justify-center items-center h-screen">
+            <ClipLoader
+              color={"#09110f"}
+              loading={true}
+              size={100}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </div>
+        );
+      }
 
   return (
     <div className="bg-white">
